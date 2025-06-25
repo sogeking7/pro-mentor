@@ -1,0 +1,21 @@
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+
+# Ignore virtual environment directories (optional, but recommended)
+.venv/
+venv/
+env/
+
+# Ignore editor/IDE specific files (examples)
+.vscode/
+.idea/
+*.swp
+
+# Ignore uploaded files or logs if stored in the repo directory
+/uploads/
+/logs/
+.env
+
+*.log
+.DS_Store

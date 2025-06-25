@@ -1,0 +1,39 @@
+services:
+  pro-mentor-fastapi:
+    build: .
+    container_name: pro-mentor-fastapi
+    restart: always
+    depends_on:
+      pro-mentor-db:
+        condition: service_healthy
+    volumes:
+      - ./app:/app
+      - ./requirements.txt:/app/requirements.txt
+    ports:
+      - "8000:8000"
+    networks:
+      - pro-mentor-net
+    env_file:
+      - .env
+
+  pro-mentor-db:
+    image: postgres:latest
+    container_name: pro-mentor-db
+    restart: always
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    networks:
+      - pro-mentor-net
+    volumes:
+      - /pro-mentor/postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  pro-mentor-net:
+    driver: bridge
