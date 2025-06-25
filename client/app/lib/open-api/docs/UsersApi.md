@@ -8,6 +8,7 @@ All URIs are relative to *http://localhost:8000*
 |[**deleteUser**](#deleteuser) | **DELETE** /api/v1/users/{user_id} | Delete User|
 |[**readCurrentUser**](#readcurrentuser) | **GET** /api/v1/users/me | Get Current User|
 |[**readUser**](#readuser) | **GET** /api/v1/users/{user_id} | Read User|
+|[**readUserRoles**](#readuserroles) | **GET** /api/v1/users/user_roles | Read User Roles|
 |[**readUsers**](#readusers) | **GET** /api/v1/users/ | Read Users|
 |[**updateUser**](#updateuser) | **PUT** /api/v1/users/{user_id} | Update User|
 
@@ -206,6 +207,49 @@ const { status, data } = await apiInstance.readUser(
 |-------------|-------------|------------------|
 |**200** | Successful Response |  -  |
 |**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **readUserRoles**
+> Array<UserRoleOut> readUserRoles()
+
+
+### Example
+
+```typescript
+import {
+    UsersApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new UsersApi(configuration);
+
+const { status, data } = await apiInstance.readUserRoles();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**Array<UserRoleOut>**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Successful Response |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

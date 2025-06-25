@@ -14,10 +14,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { userApi } from "@/lib/services";
 import React from "react";
 import { z } from "zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import type { UserOut, UserUpdate } from "@/lib/open-api";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface ProfileFormProps {
   user: UserOut;
@@ -27,6 +34,7 @@ const profileSchema = z.object({
   first_name: z.string().min(3),
   last_name: z.string().min(3),
   email: z.string().email(),
+  user_role_id: z.number().nonnegative(),
 });
 type Profile = z.infer<typeof profileSchema>;
 
@@ -39,7 +47,13 @@ export default function ProfileForm({ user }: ProfileFormProps) {
       first_name: user.first_name,
       last_name: user.last_name,
       email: user.email,
+      user_role_id: user.user_role_id ? user.user_role_id : undefined,
     },
+  });
+
+  const { data: user_roles, isLoading } = useQuery({
+    queryFn: async () => (await userApi.readUserRoles()).data,
+    queryKey: ["user_roles"],
   });
 
   const { mutateAsync, isPending } = useMutation({
@@ -77,7 +91,7 @@ export default function ProfileForm({ user }: ProfileFormProps) {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col items-center space-y-6"
         >
-          <div className="grid grid-cols-1  w-full items-start gap-4 md:grid-cols-2">
+          <div className="grid w-full grid-cols-1 items-start gap-4 md:grid-cols-2">
             <FormField
               control={form.control}
               name="first_name"
@@ -120,6 +134,36 @@ export default function ProfileForm({ user }: ProfileFormProps) {
               </FormItem>
             )}
           />
+
+          <FormField
+            control={form.control}
+            name="user_role_id"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Рөл</FormLabel>
+                <Select
+                  onValueChange={(value) => field.onChange(Number(value))}
+                  value={field.value !== undefined ? String(field.value) : ""}
+                  disabled={isLoading}
+                >
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Рөлді таңдаңыз" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {user_roles?.map((role) => (
+                      <SelectItem key={role.id} value={String(role.id)}>
+                        {role.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <Button disabled={isPending} type="submit" className="">
             {isPending ? "Жүктелуде..." : "Сақтау"}
           </Button>

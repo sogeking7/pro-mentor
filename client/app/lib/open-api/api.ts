@@ -134,6 +134,12 @@ export interface UserCreate {
   email: string;
   /**
    *
+   * @type {number}
+   * @memberof UserCreate
+   */
+  user_role_id?: number | null;
+  /**
+   *
    * @type {string}
    * @memberof UserCreate
    */
@@ -168,6 +174,37 @@ export interface UserOut {
    * @type {number}
    * @memberof UserOut
    */
+  user_role_id?: number | null;
+  /**
+   *
+   * @type {number}
+   * @memberof UserOut
+   */
+  id: number;
+  /**
+   *
+   * @type {UserRoleOut}
+   * @memberof UserOut
+   */
+  role?: UserRoleOut | null;
+}
+/**
+ *
+ * @export
+ * @interface UserRoleOut
+ */
+export interface UserRoleOut {
+  /**
+   *
+   * @type {string}
+   * @memberof UserRoleOut
+   */
+  name: string;
+  /**
+   *
+   * @type {number}
+   * @memberof UserRoleOut
+   */
   id: number;
 }
 /**
@@ -194,6 +231,12 @@ export interface UserUpdate {
    * @memberof UserUpdate
    */
   email: string;
+  /**
+   *
+   * @type {number}
+   * @memberof UserUpdate
+   */
+  user_role_id?: number | null;
 }
 /**
  *
@@ -1020,6 +1063,54 @@ export const UsersApiAxiosParamCreator = function (
     },
     /**
      *
+     * @summary Read User Roles
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    readUserRoles: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/users/user_roles`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // oauth required
+      await setOAuthToObject(
+        localVarHeaderParameter,
+        "bearerAuth",
+        [],
+        configuration,
+      );
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
      * @summary Read Users
      * @param {string | null} [q]
      * @param {number} [page] Page number
@@ -1277,6 +1368,35 @@ export const UsersApiFp = function (configuration?: Configuration) {
     },
     /**
      *
+     * @summary Read User Roles
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async readUserRoles(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<UserRoleOut>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.readUserRoles(options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["UsersApi.readUserRoles"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
      * @summary Read Users
      * @param {string | null} [q]
      * @param {number} [page] Page number
@@ -1415,6 +1535,19 @@ export const UsersApiFactory = function (
     },
     /**
      *
+     * @summary Read User Roles
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    readUserRoles(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<UserRoleOut>> {
+      return localVarFp
+        .readUserRoles(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
      * @summary Read Users
      * @param {string | null} [q]
      * @param {number} [page] Page number
@@ -1511,6 +1644,19 @@ export class UsersApi extends BaseAPI {
   public readUser(userId: number, options?: RawAxiosRequestConfig) {
     return UsersApiFp(this.configuration)
       .readUser(userId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @summary Read User Roles
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UsersApi
+   */
+  public readUserRoles(options?: RawAxiosRequestConfig) {
+    return UsersApiFp(this.configuration)
+      .readUserRoles(options)
       .then((request) => request(this.axios, this.basePath));
   }
 

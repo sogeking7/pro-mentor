@@ -1,5 +1,5 @@
 from fastapi import HTTPException, status
-from typing import Optional
+from typing import Optional, List
 
 from fastapi_pagination import Page
 from pydantic import EmailStr
@@ -8,6 +8,8 @@ from sqlalchemy.orm import Session
 from app.models.user import User
 from app.schemas.user import UserCreate, UserUpdate, UserOut
 from app.repositories import user as user_repo
+from app.repositories import user_role as user_role_repo
+from app.schemas.user_role import UserRoleOut
 
 
 def get_user(db: Session, user_id: int) -> Optional[User]:
@@ -42,3 +44,9 @@ def delete_user(db: Session, user_id: int) -> None:
 
 def authenticate_user(db: Session, email: EmailStr, password: str) -> Optional[User]:
     return user_repo.authenticate_user(db, email, password)
+
+
+def get_user_roles(
+        db: Session
+) -> List[UserRoleOut]:
+    return user_role_repo.get_user_roles(db)

@@ -16,10 +16,16 @@ import {
 import { PasswordInput } from "@/components/ui/password-input";
 import { useAuth } from "@/contexts/AuthContext";
 import { z } from "zod";
-import { useNavigate } from "react-router";
 import { authApi, userApi } from "@/lib/services";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface RegisterProps {
   onSuccessAction: () => void;
@@ -30,12 +36,12 @@ const registerSchema = z.object({
   last_name: z.string().min(3),
   email: z.string().email(),
   password: z.string().min(6),
+  user_role_id: z.number().nonnegative(),
 });
 type Register = z.infer<typeof registerSchema>;
 
 export default function Register({ onSuccessAction }: RegisterProps) {
   const { login } = useAuth();
-  let navigate = useNavigate();
 
   const form = useForm<Register>({
     resolver: zodResolver(registerSchema),
@@ -45,6 +51,11 @@ export default function Register({ onSuccessAction }: RegisterProps) {
       email: "",
       password: "",
     },
+  });
+
+  const { data: user_roles, isLoading } = useQuery({
+    queryFn: async () => (await userApi.readUserRoles()).data,
+    queryKey: ["user_roles"],
   });
 
   const { mutateAsync, isPending } = useMutation({
@@ -128,6 +139,36 @@ export default function Register({ onSuccessAction }: RegisterProps) {
               </FormItem>
             )}
           />
+
+          <FormField
+            control={form.control}
+            name="user_role_id"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Рөл</FormLabel>
+                <Select
+                  onValueChange={(value) => field.onChange(Number(value))}
+                  value={field.value !== undefined ? String(field.value) : ""}
+                  disabled={isLoading}
+                >
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Рөлді таңдаңыз" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {user_roles?.map((role) => (
+                      <SelectItem key={role.id} value={String(role.id)}>
+                        {role.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <Button disabled={isPending} type="submit" className="w-full">
             {isPending ? "Жүктелуде..." : "Тіркелу"}
           </Button>

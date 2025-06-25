@@ -2,7 +2,7 @@ from typing import Optional
 
 from fastapi_pagination import Page
 from pydantic import EmailStr
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from app.models.user import User
 from app.schemas.user import UserCreate, UserUpdate, UserOut
 from app.core.security import get_password_hash, verify_password
@@ -11,7 +11,8 @@ from sqlalchemy import or_
 
 
 def get_active_users(db: Session):
-    return db.query(User).filter_by(deleted=False)
+    return db.query(User).options(
+        joinedload(User.role)).filter_by(deleted=False)
 
 
 def get_user(db: Session, user_id: int) -> Optional[UserOut]:
@@ -44,6 +45,7 @@ def insert_user(db: Session, user_in: UserCreate) -> UserOut:
         last_name=user_in.last_name,
         email=str(user_in.email),
         hashed_password=get_password_hash(user_in.password),
+        user_role_id=user_in.user_role_id
     )
     db.add(user)
     db.commit()
