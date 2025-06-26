@@ -20,8 +20,8 @@ def get_db():
 
 
 def get_token_from_request(
-        session_token: Optional[str] = Cookie(None, include_in_schema=False),
-        authorization: Optional[str] = Header(None, include_in_schema=False),
+    session_token: Optional[str] = Cookie(None, include_in_schema=False),
+    authorization: Optional[str] = Header(None, include_in_schema=False),
 ) -> Optional[str]:
     token = None
     if session_token:
@@ -40,8 +40,8 @@ def get_token_from_request(
 
 
 def get_current_user(
-        db: Session = Depends(get_db),
-        token: Optional[str] = Depends(get_token_from_request),
+    db: Session = Depends(get_db),
+    token: Optional[str] = Depends(get_token_from_request),
 ) -> UserOut:
     if token is None:
         logger.warning("Attempted to get current user without a token.")

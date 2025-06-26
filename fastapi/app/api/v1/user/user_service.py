@@ -19,9 +19,7 @@ def get_user(db: Session, user_id: int) -> Optional[User]:
     return user_repo.get_user(db, user_id)
 
 
-def get_users(
-        db: Session, q: Optional[str] = None
-) -> Page[UserOut]:
+def get_users(db: Session, q: Optional[str] = None) -> Page[UserOut]:
     return user_repo.get_users(db, q=q)
 
 
@@ -46,7 +44,5 @@ def authenticate_user(db: Session, email: EmailStr, password: str) -> Optional[U
     return user_repo.authenticate_user(db, email, password)
 
 
-def get_user_roles(
-        db: Session
-) -> List[UserRoleOut]:
+def get_user_roles(db: Session) -> List[UserRoleOut]:
     return user_role_repo.get_user_roles(db)

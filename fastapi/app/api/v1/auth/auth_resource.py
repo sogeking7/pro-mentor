@@ -17,10 +17,7 @@ router = APIRouter()
 
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
-def register(
-        response: Response,
-        user_: UserCreate,
-        db: Session = Depends(get_db)):
+def register(response: Response, user_: UserCreate, db: Session = Depends(get_db)):
     db_session: DBSession = auth_service.register_user(db=db, user_in=user_)
 
     session_token_str = str(db_session.token)
@@ -40,9 +37,9 @@ def register(
 
 @router.post("/login", response_model=TokenModel)
 def login(
-        response: Response,
-        form_: OAuth2PasswordRequestForm = Depends(),
-        db: Session = Depends(get_db),
+    response: Response,
+    form_: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db),
 ):
     try:
         validated_email = validate_email(form_.username).normalized
@@ -71,9 +68,9 @@ def login(
 
 @router.post("/logout", status_code=status.HTTP_201_CREATED)
 def logout(
-        response: Response,
-        request: Request,
-        db: Session = Depends(get_db),
+    response: Response,
+    request: Request,
+    db: Session = Depends(get_db),
 ):
     session_token = request.cookies.get("session_token")
 

@@ -11,8 +11,7 @@ from sqlalchemy import or_
 
 
 def get_active_users(db: Session):
-    return db.query(User).options(
-        joinedload(User.role)).filter_by(deleted=False)
+    return db.query(User).options(joinedload(User.role)).filter_by(deleted=False)
 
 
 def get_user(db: Session, user_id: int) -> Optional[UserOut]:
@@ -23,9 +22,7 @@ def get_user_by_email(db: Session, email: EmailStr) -> Optional[UserOut]:
     return get_active_users(db).filter_by(email=email).first()
 
 
-def get_users(
-        db: Session, q: Optional[str] = None
-) -> Page[UserOut]:
+def get_users(db: Session, q: Optional[str] = None) -> Page[UserOut]:
     query = get_active_users(db).order_by(User.first_name, User.last_name)
     if q:
         search = f"%{q}%"
@@ -45,7 +42,7 @@ def insert_user(db: Session, user_in: UserCreate) -> UserOut:
         last_name=user_in.last_name,
         email=str(user_in.email),
         hashed_password=get_password_hash(user_in.password),
-        user_role_id=user_in.user_role_id
+        user_role_id=user_in.user_role_id,
     )
     db.add(user)
     db.commit()
