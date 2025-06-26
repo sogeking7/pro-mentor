@@ -76,3 +76,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     </main>
   );
 }
+
+export function HydrateFallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <p>Loading...</p>
+    </div>
+  );
+}

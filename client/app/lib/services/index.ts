@@ -1,7 +1,7 @@
 import { AuthApi, Configuration, UsersApi } from "@/lib/open-api";
 
 const config = new Configuration({
-  basePath: window.location.origin,
+  basePath: "http://localhost:5173",
   baseOptions: {},
 });
 
