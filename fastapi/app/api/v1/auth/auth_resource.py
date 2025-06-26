@@ -20,7 +20,7 @@ logger = get_logger(__name__)
 
 def set_session_cookie(response: Response, token: str) -> None:
     secure = settings.is_production
-    same_site = "strict" if settings.is_production else "lax",
+    same_site = "strict" if settings.is_production else "lax"
     domain = settings.cookie_domain
 
     response.set_cookie(
@@ -30,20 +30,21 @@ def set_session_cookie(response: Response, token: str) -> None:
         secure=secure,
         samesite=same_site,
         max_age=settings.SESSION_DURATION_DAYS * 24 * 60 * 60,
-        domain=domain
+        domain=domain,
     )
     logger.debug(
         f"Set session cookie: "
         f"domain={domain}, "
         f"secure={secure}, "
-        f"samesite={same_site}")
+        f"samesite={same_site}"
+    )
 
 
-@router.post("/register", response_model=TokenModel, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/register", response_model=TokenModel, status_code=status.HTTP_201_CREATED
+)
 def register(
-        response: Response,
-        user_in: UserCreate,
-        db: Session = Depends(get_db)
+    response: Response, user_in: UserCreate, db: Session = Depends(get_db)
 ) -> TokenModel:
     db_session: DBSessionModel = auth_service.register_user(db=db, user_in=user_in)
     token = str(db_session.token)
@@ -54,9 +55,9 @@ def register(
 
 @router.post("/login", response_model=TokenModel)
 def login(
-        response: Response,
-        form_data: OAuth2PasswordRequestForm = Depends(),
-        db: Session = Depends(get_db)
+    response: Response,
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db),
 ) -> TokenModel:
     db_session: DBSessionModel = auth_service.login_user(
         db=db, username=form_data.username, password=form_data.password
@@ -69,9 +70,7 @@ def login(
 
 @router.post("/logout", status_code=status.HTTP_200_OK)
 def logout(
-        response: Response,
-        request: Request,
-        db: Session = Depends(get_db)
+    response: Response, request: Request, db: Session = Depends(get_db)
 ) -> JSONResponse:
     session_token = request.cookies.get("session_token")
 

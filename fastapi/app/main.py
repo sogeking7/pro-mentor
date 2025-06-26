@@ -37,7 +37,7 @@ app.add_middleware(
         "http://localhost:5173",
         "http://89.35.124.142:3000",
         "http://89.35.124.142",
-        "https://pro-mentor.kz"
+        "https://pro-mentor.kz",
     ],
     allow_credentials=True,
     allow_methods=["*"],
