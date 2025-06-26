@@ -4,9 +4,9 @@ import { Outlet } from "react-router";
 
 export default function HomeLayout() {
   return (
-    <div className="min-h-screen pt-16">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pt-16">
       <AppHeader />
-      <Container className="h-full w-full py-6">
+      <Container className="min-h-[calc(100vh-64px)] w-full py-6">
         <Outlet />
       </Container>
     </div>
