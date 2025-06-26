@@ -1,9 +1,12 @@
+from typing import Literal
+
 from fastapi import APIRouter, Depends, Response, Request, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
+from app.core.logger import get_logger
 from app.schemas.auth import TokenModel
 from app.schemas.user import UserCreate
 from app.api.dependencies import get_db
@@ -12,17 +15,28 @@ from app.models.session import Session as DBSessionModel
 
 router = APIRouter()
 
+logger = get_logger(__name__)
+
 
 def set_session_cookie(response: Response, token: str) -> None:
+    secure = settings.is_production
+    same_site = "strict" if settings.is_production else "lax",
+    domain = settings.cookie_domain
+
     response.set_cookie(
         key="session_token",
         value=token,
         httponly=True,
-        secure=settings.is_production,
-        samesite="strict" if settings.is_production else "lax",
+        secure=secure,
+        samesite=same_site,
         max_age=settings.SESSION_DURATION_DAYS * 24 * 60 * 60,
-        domain=settings.cookie_domain
+        domain=domain
     )
+    logger.debug(
+        f"Set session cookie: "
+        f"domain={domain}, "
+        f"secure={secure}, "
+        f"samesite={same_site}")
 
 
 @router.post("/register", response_model=TokenModel, status_code=status.HTTP_201_CREATED)
