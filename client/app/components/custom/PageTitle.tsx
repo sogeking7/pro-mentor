@@ -1,3 +1,7 @@
 export const PageTitle = ({ title }: { title: string }) => {
-  return <h1 className="text-2xl md:text-3xl font-bold mb-10">{title}</h1>;
+  return (
+    <h1 className="mb-8 text-2xl font-bold text-gray-900 md:text-3xl">
+      {title}
+    </h1>
+  );
 };

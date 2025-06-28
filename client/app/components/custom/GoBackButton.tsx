@@ -1,4 +1,3 @@
-import { ArrowLeft, ChevronLeft } from "lucide-react";
 import { NavLink } from "react-router";
 
 export default function GoBackButton({
@@ -11,12 +10,9 @@ export default function GoBackButton({
   return (
     <NavLink
       to={path}
-      className={
-        "mb-4 flex w-max items-center gap-1 font-medium text-blue-500 hover:underline md:mb-6"
-      }
+      className={"mb-4 inline-block text-blue-600 hover:underline"}
     >
-      <ArrowLeft size={14} />
-      {label}
+      ←{" " + label}
     </NavLink>
   );
 }
