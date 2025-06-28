@@ -34,7 +34,7 @@ export const DevelopmentTracker = () => {
     { id: 4, text: "Физикалық жаттығу", completed: false, type: "physical" },
   ]);
 
-  const completeTask = (taskId) => {
+  const completeTask = (taskId: number) => {
     const updatedTasks = tasks.map((task) =>
       task.id === taskId ? { ...task, completed: !task.completed } : task,
     );
