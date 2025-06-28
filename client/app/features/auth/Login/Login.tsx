@@ -45,7 +45,7 @@ export default function Login({ onSuccessAction }: LoginProps) {
     mutationFn: (data: LoginForm) =>
       authApi.login(data.username, data.password),
     onSuccess: () => {
-      toast.success("Қайтадан қош келдіңіз 🎉");
+      toast.success("Қош келдіңіз 🎉");
       onSuccessAction();
     },
     onError: (error: any) => {

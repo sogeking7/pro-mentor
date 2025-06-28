@@ -26,7 +26,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { UserRoleOut } from "@/lib/open-api";
 
 interface RegisterProps {
   onSuccessAction: () => void;

@@ -55,6 +55,144 @@ export interface HTTPValidationError {
 /**
  *
  * @export
+ * @interface HabitCompletionOut
+ */
+export interface HabitCompletionOut {
+  /**
+   *
+   * @type {number}
+   * @memberof HabitCompletionOut
+   */
+  habit_id: number;
+  /**
+   *
+   * @type {boolean}
+   * @memberof HabitCompletionOut
+   */
+  completed: boolean;
+  /**
+   *
+   * @type {number}
+   * @memberof HabitCompletionOut
+   */
+  id: number;
+  /**
+   *
+   * @type {HabitOut}
+   * @memberof HabitCompletionOut
+   */
+  habit: HabitOut;
+  /**
+   *
+   * @type {string}
+   * @memberof HabitCompletionOut
+   */
+  created_at: string;
+  /**
+   *
+   * @type {string}
+   * @memberof HabitCompletionOut
+   */
+  updated_at?: string | null;
+}
+/**
+ *
+ * @export
+ * @interface HabitCompletionSave
+ */
+export interface HabitCompletionSave {
+  /**
+   *
+   * @type {boolean}
+   * @memberof HabitCompletionSave
+   */
+  completed: boolean;
+}
+/**
+ *
+ * @export
+ * @interface HabitCreate
+ */
+export interface HabitCreate {
+  /**
+   *
+   * @type {string}
+   * @memberof HabitCreate
+   */
+  title: string;
+  /**
+   *
+   * @type {number}
+   * @memberof HabitCreate
+   */
+  habit_type_id: number;
+}
+/**
+ *
+ * @export
+ * @interface HabitOut
+ */
+export interface HabitOut {
+  /**
+   *
+   * @type {string}
+   * @memberof HabitOut
+   */
+  title: string;
+  /**
+   *
+   * @type {number}
+   * @memberof HabitOut
+   */
+  habit_type_id: number;
+  /**
+   *
+   * @type {number}
+   * @memberof HabitOut
+   */
+  id: number;
+  /**
+   *
+   * @type {HabitTypeOut}
+   * @memberof HabitOut
+   */
+  type: HabitTypeOut;
+}
+/**
+ *
+ * @export
+ * @interface HabitTypeOut
+ */
+export interface HabitTypeOut {
+  /**
+   *
+   * @type {string}
+   * @memberof HabitTypeOut
+   */
+  name: string;
+  /**
+   *
+   * @type {number}
+   * @memberof HabitTypeOut
+   */
+  id: number;
+}
+/**
+ *
+ * @export
+ * @interface HabitUpdate
+ */
+export interface HabitUpdate {
+  /**
+   *
+   * @type {string}
+   * @memberof HabitUpdate
+   */
+  title: string;
+}
+/**
+ *
+ * @export
  * @interface PageUserOut
  */
 export interface PageUserOut {
@@ -540,7 +678,7 @@ export const AuthApiFp = function (configuration?: Configuration) {
       userCreate: UserCreate,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokenModel>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.register(
         userCreate,
@@ -626,7 +764,7 @@ export const AuthApiFactory = function (
     register(
       userCreate: UserCreate,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<any> {
+    ): AxiosPromise<TokenModel> {
       return localVarFp
         .register(userCreate, options)
         .then((request) => request(axios, basePath));
@@ -700,6 +838,872 @@ export class AuthApi extends BaseAPI {
   public register(userCreate: UserCreate, options?: RawAxiosRequestConfig) {
     return AuthApiFp(this.configuration)
       .register(userCreate, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
+ * HabitsApi - axios parameter creator
+ * @export
+ */
+export const HabitsApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     *
+     * @summary Create User Habit
+     * @param {HabitCreate} habitCreate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createUserHabit: async (
+      habitCreate: HabitCreate,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'habitCreate' is not null or undefined
+      assertParamExists("createUserHabit", "habitCreate", habitCreate);
+      const localVarPath = `/api/v1/habits/`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // oauth required
+      await setOAuthToObject(
+        localVarHeaderParameter,
+        "bearerAuth",
+        [],
+        configuration,
+      );
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        habitCreate,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Delete User Habit
+     * @param {number} habitId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteUserHabit: async (
+      habitId: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'habitId' is not null or undefined
+      assertParamExists("deleteUserHabit", "habitId", habitId);
+      const localVarPath = `/api/v1/habits/{habit_id}`.replace(
+        `{${"habit_id"}}`,
+        encodeURIComponent(String(habitId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // oauth required
+      await setOAuthToObject(
+        localVarHeaderParameter,
+        "bearerAuth",
+        [],
+        configuration,
+      );
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Read Habit Types
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    readHabitTypes: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/habits/habit_types`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // oauth required
+      await setOAuthToObject(
+        localVarHeaderParameter,
+        "bearerAuth",
+        [],
+        configuration,
+      );
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Read User Habits
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    readUserHabits: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/habits/`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // oauth required
+      await setOAuthToObject(
+        localVarHeaderParameter,
+        "bearerAuth",
+        [],
+        configuration,
+      );
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Save Habit Completion
+     * @param {number} habitId
+     * @param {HabitCompletionSave} habitCompletionSave
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    saveHabitCompletion: async (
+      habitId: number,
+      habitCompletionSave: HabitCompletionSave,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'habitId' is not null or undefined
+      assertParamExists("saveHabitCompletion", "habitId", habitId);
+      // verify required parameter 'habitCompletionSave' is not null or undefined
+      assertParamExists(
+        "saveHabitCompletion",
+        "habitCompletionSave",
+        habitCompletionSave,
+      );
+      const localVarPath =
+        `/api/v1/habits/save_habit_completion/{habit_id}`.replace(
+          `{${"habit_id"}}`,
+          encodeURIComponent(String(habitId)),
+        );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // oauth required
+      await setOAuthToObject(
+        localVarHeaderParameter,
+        "bearerAuth",
+        [],
+        configuration,
+      );
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        habitCompletionSave,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Today Habit Completions
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    todayHabitCompletions: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/habits/today_habit_completions`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // oauth required
+      await setOAuthToObject(
+        localVarHeaderParameter,
+        "bearerAuth",
+        [],
+        configuration,
+      );
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Update User Habit
+     * @param {number} habitId
+     * @param {HabitUpdate} habitUpdate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateUserHabit: async (
+      habitId: number,
+      habitUpdate: HabitUpdate,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'habitId' is not null or undefined
+      assertParamExists("updateUserHabit", "habitId", habitId);
+      // verify required parameter 'habitUpdate' is not null or undefined
+      assertParamExists("updateUserHabit", "habitUpdate", habitUpdate);
+      const localVarPath = `/api/v1/habits/{habit_id}`.replace(
+        `{${"habit_id"}}`,
+        encodeURIComponent(String(habitId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "PUT",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // oauth required
+      await setOAuthToObject(
+        localVarHeaderParameter,
+        "bearerAuth",
+        [],
+        configuration,
+      );
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        habitUpdate,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * HabitsApi - functional programming interface
+ * @export
+ */
+export const HabitsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = HabitsApiAxiosParamCreator(configuration);
+  return {
+    /**
+     *
+     * @summary Create User Habit
+     * @param {HabitCreate} habitCreate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createUserHabit(
+      habitCreate: HabitCreate,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<HabitOut>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createUserHabit(
+        habitCreate,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["HabitsApi.createUserHabit"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @summary Delete User Habit
+     * @param {number} habitId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteUserHabit(
+      habitId: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deleteUserHabit(
+        habitId,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["HabitsApi.deleteUserHabit"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @summary Read Habit Types
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async readHabitTypes(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<HabitTypeOut>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.readHabitTypes(options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["HabitsApi.readHabitTypes"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @summary Read User Habits
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async readUserHabits(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<HabitOut>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.readUserHabits(options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["HabitsApi.readUserHabits"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @summary Save Habit Completion
+     * @param {number} habitId
+     * @param {HabitCompletionSave} habitCompletionSave
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async saveHabitCompletion(
+      habitId: number,
+      habitCompletionSave: HabitCompletionSave,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<HabitCompletionOut>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.saveHabitCompletion(
+          habitId,
+          habitCompletionSave,
+          options,
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["HabitsApi.saveHabitCompletion"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @summary Today Habit Completions
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async todayHabitCompletions(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<HabitCompletionOut>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.todayHabitCompletions(options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["HabitsApi.todayHabitCompletions"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @summary Update User Habit
+     * @param {number} habitId
+     * @param {HabitUpdate} habitUpdate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updateUserHabit(
+      habitId: number,
+      habitUpdate: HabitUpdate,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<HabitOut>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updateUserHabit(
+        habitId,
+        habitUpdate,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["HabitsApi.updateUserHabit"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+  };
+};
+
+/**
+ * HabitsApi - factory interface
+ * @export
+ */
+export const HabitsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = HabitsApiFp(configuration);
+  return {
+    /**
+     *
+     * @summary Create User Habit
+     * @param {HabitCreate} habitCreate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createUserHabit(
+      habitCreate: HabitCreate,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<HabitOut> {
+      return localVarFp
+        .createUserHabit(habitCreate, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Delete User Habit
+     * @param {number} habitId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteUserHabit(
+      habitId: number,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .deleteUserHabit(habitId, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Read Habit Types
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    readHabitTypes(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<HabitTypeOut>> {
+      return localVarFp
+        .readHabitTypes(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Read User Habits
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    readUserHabits(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<HabitOut>> {
+      return localVarFp
+        .readUserHabits(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Save Habit Completion
+     * @param {number} habitId
+     * @param {HabitCompletionSave} habitCompletionSave
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    saveHabitCompletion(
+      habitId: number,
+      habitCompletionSave: HabitCompletionSave,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<HabitCompletionOut> {
+      return localVarFp
+        .saveHabitCompletion(habitId, habitCompletionSave, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Today Habit Completions
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    todayHabitCompletions(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<HabitCompletionOut>> {
+      return localVarFp
+        .todayHabitCompletions(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Update User Habit
+     * @param {number} habitId
+     * @param {HabitUpdate} habitUpdate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateUserHabit(
+      habitId: number,
+      habitUpdate: HabitUpdate,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<HabitOut> {
+      return localVarFp
+        .updateUserHabit(habitId, habitUpdate, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * HabitsApi - object-oriented interface
+ * @export
+ * @class HabitsApi
+ * @extends {BaseAPI}
+ */
+export class HabitsApi extends BaseAPI {
+  /**
+   *
+   * @summary Create User Habit
+   * @param {HabitCreate} habitCreate
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof HabitsApi
+   */
+  public createUserHabit(
+    habitCreate: HabitCreate,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return HabitsApiFp(this.configuration)
+      .createUserHabit(habitCreate, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @summary Delete User Habit
+   * @param {number} habitId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof HabitsApi
+   */
+  public deleteUserHabit(habitId: number, options?: RawAxiosRequestConfig) {
+    return HabitsApiFp(this.configuration)
+      .deleteUserHabit(habitId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @summary Read Habit Types
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof HabitsApi
+   */
+  public readHabitTypes(options?: RawAxiosRequestConfig) {
+    return HabitsApiFp(this.configuration)
+      .readHabitTypes(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @summary Read User Habits
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof HabitsApi
+   */
+  public readUserHabits(options?: RawAxiosRequestConfig) {
+    return HabitsApiFp(this.configuration)
+      .readUserHabits(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @summary Save Habit Completion
+   * @param {number} habitId
+   * @param {HabitCompletionSave} habitCompletionSave
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof HabitsApi
+   */
+  public saveHabitCompletion(
+    habitId: number,
+    habitCompletionSave: HabitCompletionSave,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return HabitsApiFp(this.configuration)
+      .saveHabitCompletion(habitId, habitCompletionSave, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @summary Today Habit Completions
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof HabitsApi
+   */
+  public todayHabitCompletions(options?: RawAxiosRequestConfig) {
+    return HabitsApiFp(this.configuration)
+      .todayHabitCompletions(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @summary Update User Habit
+   * @param {number} habitId
+   * @param {HabitUpdate} habitUpdate
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof HabitsApi
+   */
+  public updateUserHabit(
+    habitId: number,
+    habitUpdate: HabitUpdate,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return HabitsApiFp(this.configuration)
+      .updateUserHabit(habitId, habitUpdate, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }

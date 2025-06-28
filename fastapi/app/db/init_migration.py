@@ -1,12 +1,11 @@
-import logging
-from app.db.session import SessionLocal
 from sqlalchemy.orm import Session as DBSession
-from app.models.user_role import UserRole
 
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+from app.core.logger import get_logger
+from app.db.seed.seed_habit_types import seed_habit_types
+from app.db.seed.seed_user_roles import seed_user_roles
+from app.db.session import SessionLocal
 
-DEFAULT_ROLES = ["Мұғалім", "Директор", "Әдіскер", "Басқа"]
+logger = get_logger(__name__)
 
 
 async def init_migration():
@@ -14,15 +13,8 @@ async def init_migration():
     db: DBSession = SessionLocal()
 
     try:
-        for role_name in DEFAULT_ROLES:
-            logger.info(f"Checking role: {role_name}")
-            exists = db.query(UserRole).filter_by(name=role_name).first()
-            if not exists:
-                logger.info(f"Creating role: {role_name}")
-                role = UserRole(name=role_name)
-                db.add(role)
-        db.commit()
-        logger.info("User roles migration completed successfully.")
+        seed_user_roles(db)
+        seed_habit_types(db)
     except Exception as e:
         logger.error(f"Error during user_roles migration: {e}")
         db.rollback()

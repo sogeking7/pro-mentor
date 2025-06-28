@@ -7,7 +7,7 @@ const containerVariants = cva("mx-auto px-4 w-full", {
     variant: {
       largePadded: "px-4 container max-w-screen-2xl",
       fullMobileConstrainedPadded: "max-w-7xl",
-      constrainedPadded: "max-w-[1400px] px-4",
+      constrainedPadded: "max-w-[1400px] px-3 md:px-6 xl:px-8",
       fullMobileBreakpointPadded: "container mx-auto",
       breakpointPadded: "container mx-auto px-4",
       narrowConstrainedPadded: "px-4 max-w-3xl",

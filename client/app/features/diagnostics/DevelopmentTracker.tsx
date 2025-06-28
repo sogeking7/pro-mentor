@@ -1,105 +1,190 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { habitApi } from "@/lib/services";
+import type { HabitCompletionSave } from "@/lib/open-api";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
+
+const habitCompletionSchema = z.object({
+  completions: z.array(z.number()),
+});
+
+type HabitCompletionForm = z.infer<typeof habitCompletionSchema>;
 
 export const DevelopmentTracker = () => {
-  const [streak, setStreak] = useState(() => {
-    const saved = window.localStorage?.getItem("streak");
-    return saved ? JSON.parse(saved) : 0;
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  const { data: todayCompletions = [] } = useQuery({
+    queryKey: ["today_habits_completions"],
+    queryFn: async () => (await habitApi.todayHabitCompletions()).data,
   });
 
-  const [todayCompleted, setTodayCompleted] = useState(() => {
-    const today = new Date().toDateString();
-    const lastCompleted = window.localStorage?.getItem("lastCompleted");
-    return lastCompleted === today;
+  const { data: habits = [], isLoading: isHabitsLoading } = useQuery({
+    queryKey: ["habits"],
+    queryFn: async () => (await habitApi.readUserHabits()).data,
+    enabled: !!user,
   });
 
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      text: "10 минут ағылшын тілін үйрену",
-      completed: false,
-      type: "language",
-    },
-    {
-      id: 2,
-      text: "Жаңа педагогикалық әдіс оқу",
-      completed: false,
-      type: "professional",
-    },
-    {
-      id: 3,
-      text: "Медитация немесе рефлексия",
-      completed: false,
-      type: "spiritual",
-    },
-    { id: 4, text: "Физикалық жаттығу", completed: false, type: "physical" },
-  ]);
+  const form = useForm<HabitCompletionForm>({
+    resolver: zodResolver(habitCompletionSchema),
+    defaultValues: { completions: [] },
+  });
 
-  const completeTask = (taskId: number) => {
-    const updatedTasks = tasks.map((task) =>
-      task.id === taskId ? { ...task, completed: !task.completed } : task,
-    );
-    setTasks(updatedTasks);
+  useEffect(() => {
+    if (todayCompletions.length === 0) return;
 
-    const allCompleted = updatedTasks.every((task) => task.completed);
-    if (allCompleted && !todayCompleted) {
-      const newStreak = streak + 1;
-      setStreak(newStreak);
-      setTodayCompleted(true);
-      if (window.localStorage) {
-        window.localStorage.setItem("streak", JSON.stringify(newStreak));
-        window.localStorage.setItem("lastCompleted", new Date().toDateString());
-      }
+    const existing = form.getValues("completions");
+    if (!existing || existing.length === 0) {
+      const completedHabitIds = todayCompletions
+        .filter((c) => c.completed)
+        .map((c) => c.habit_id);
+
+      form.setValue("completions", completedHabitIds);
     }
-  };
+  }, [todayCompletions]);
+
+  const { mutateAsync: saveHabitCompletion, isPending } = useMutation({
+    mutationFn: async (data: {
+      habit_id: number;
+      habit_completion: HabitCompletionSave;
+    }) =>
+      (await habitApi.saveHabitCompletion(data.habit_id, data.habit_completion))
+        .data,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["today_habits_completions"] });
+    },
+  });
+
+  async function onSubmit(data: HabitCompletionForm) {
+    await Promise.all(
+      habits.map((habit) => {
+        const completed = data.completions.includes(habit.id);
+        return saveHabitCompletion({
+          habit_id: habit.id,
+          habit_completion: { completed },
+        });
+      }),
+    );
+    toast.success("Сәтті сақталды!");
+    form.reset(data);
+  }
+  const current = form.watch("completions");
+
+  const initial = todayCompletions
+    .filter((c) => c.completed)
+    .map((c) => c.habit_id);
+
+  const hasChanged =
+    current.length !== initial.length ||
+    current.some((id) => !initial.includes(id));
+
+  if (!user) {
+    return <div className="my-4 text-center text-xl">Сізге тіркелу қажет!</div>;
+  }
+
+  if (isHabitsLoading) {
+    return <div className="my-4 text-center text-xl">Жүктелуде...</div>;
+  }
 
   return (
     <div className="mx-auto max-w-2xl p-6">
-      <div className="mb-6 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 p-6 text-white">
-        <h2 className="mb-2 text-2xl font-bold">🔥 Күнделікті даму трекері</h2>
-        <div className="text-3xl font-bold">{streak} күн серия</div>
-        <p className="opacity-90">Duolingo стилінде үздіксіз даму!</p>
-      </div>
-
-      <div className="space-y-4">
-        {tasks.map((task) => (
-          <div
-            key={task.id}
-            className={`rounded-lg border-2 p-4 transition-all ${
-              task.completed
-                ? "border-green-200 bg-green-50"
-                : "border-gray-200 bg-white hover:border-purple-300"
-            }`}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="completions"
+            render={() => (
+              <FormItem className="space-y-2">
+                {habits.map((habit) => (
+                  <FormField
+                    key={habit.id}
+                    control={form.control}
+                    name="completions"
+                    render={({ field }) => {
+                      const isChecked = field.value?.includes(habit.id);
+                      return (
+                        <FormItem
+                          className={cn(
+                            "relative flex flex-row items-center gap-3 rounded-lg border-2 p-4 pr-14 transition-all",
+                            isChecked
+                              ? "border-green-200 bg-green-50"
+                              : "border-gray-200 bg-white hover:border-purple-300",
+                          )}
+                          onClick={() => {
+                            const value = field.value || [];
+                            if (isChecked) {
+                              field.onChange(
+                                value.filter((id) => id !== habit.id),
+                              );
+                            } else {
+                              field.onChange([...value, habit.id]);
+                            }
+                          }}
+                        >
+                          <FormControl>
+                            <span
+                              className="inline-flex items-center"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <Checkbox
+                                checked={isChecked}
+                                onCheckedChange={(checked) => {
+                                  const value = field.value || [];
+                                  if (checked) {
+                                    field.onChange([...value, habit.id]);
+                                  } else {
+                                    field.onChange(
+                                      value.filter((id) => id !== habit.id),
+                                    );
+                                  }
+                                }}
+                              />
+                            </span>
+                          </FormControl>
+                          <FormLabel
+                            className={cn(
+                              "text-base font-normal",
+                              isChecked && "text-gray-500 line-through",
+                            )}
+                          >
+                            {habit.title}
+                          </FormLabel>
+                          <span className="absolute right-4 font-medium">
+                            {habit.type.name}
+                          </span>
+                        </FormItem>
+                      );
+                    }}
+                  />
+                ))}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button
+            className="w-full"
+            type="submit"
+            disabled={!hasChanged || isPending}
           >
-            <label className="flex cursor-pointer items-center space-x-3">
-              <input
-                type="checkbox"
-                checked={task.completed}
-                onChange={() => completeTask(task.id)}
-                className="h-5 w-5 rounded text-purple-600 focus:ring-purple-500"
-              />
-              <span
-                className={`flex-1 ${task.completed ? "text-gray-500 line-through" : ""}`}
-              >
-                {task.text}
-              </span>
-              <span className="text-2xl">
-                {task.type === "language" && "🗣️"}
-                {task.type === "professional" && "📚"}
-                {task.type === "spiritual" && "🧘"}
-                {task.type === "physical" && "💪"}
-              </span>
-            </label>
-          </div>
-        ))}
-      </div>
-
-      {todayCompleted && (
-        <div className="mt-6 rounded-lg border border-yellow-200 bg-yellow-50 p-4">
-          <p className="font-semibold text-yellow-800">
-            🎉 Бүгінгі тапсырмалар орындалды!
-          </p>
-        </div>
-      )}
+            {isPending ? "Жүктелуде..." : "Сақтау"}
+          </Button>
+        </form>
+      </Form>
     </div>
   );
 };

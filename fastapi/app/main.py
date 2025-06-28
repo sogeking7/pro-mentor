@@ -1,18 +1,18 @@
 from contextlib import asynccontextmanager
 
+import uvicorn
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi_pagination import add_pagination
 from fastapi.routing import APIRoute
 from fastapi.security import OAuth2PasswordBearer
+from fastapi_pagination import add_pagination
 
-from app.db.init_migration import init_migration
-from app.api.v1.user import user_resource
-from app.api.v1.auth import auth_resource
 from app.api.utils.exception_handlers import add_exception_handlers
+from app.api.v1.auth import auth_resource
+from app.api.v1.habit import habit_resource
+from app.api.v1.user import user_resource
 from app.core.logger import get_logger
-
-import uvicorn
+from app.db.init_migration import init_migration
 
 logger = get_logger("app.main")
 
@@ -55,6 +55,12 @@ app.include_router(
     user_resource.router,
     prefix="/api/v1/users",
     tags=["users"],
+    dependencies=[Depends(oauth2_scheme)],
+)
+app.include_router(
+    habit_resource.router,
+    prefix="/api/v1/habits",
+    tags=["habits"],
     dependencies=[Depends(oauth2_scheme)],
 )
 

@@ -1,6 +1,4 @@
-from typing import Literal
-
-from fastapi import APIRouter, Depends, Response, Request, HTTPException, status
+from fastapi import APIRouter, Depends, Response, Request, status
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
