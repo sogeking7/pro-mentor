@@ -1,7 +1,8 @@
-from fastapi import Request, FastAPI, status, HTTPException
-from fastapi.responses import JSONResponse
-from fastapi.exceptions import RequestValidationError
 import logging
+
+from fastapi import Request, FastAPI, status, HTTPException
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 
 from app.api.utils.schemas import ValidationErrorDetail
 

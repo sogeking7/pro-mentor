@@ -4,9 +4,9 @@ from typing import Optional
 
 from sqlalchemy.orm import Session
 
+from app.core.config import settings
 from app.models.session import Session as DBSession
 from app.schemas.session import SessionCreate
-from app.core.config import settings
 
 
 def create_session(db: Session, session_in: SessionCreate) -> DBSession:

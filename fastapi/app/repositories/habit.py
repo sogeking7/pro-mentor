@@ -7,7 +7,11 @@ from app.schemas.habit import HabitCreate, HabitUpdate, HabitOut
 
 
 def get_user_habits_query(db: Session, user_id: int):
-    return db.query(Habit).options(joinedload(Habit.type)).filter_by(user_id=user_id, deleted=False)
+    return (
+        db.query(Habit)
+        .options(joinedload(Habit.type))
+        .filter_by(user_id=user_id, deleted=False)
+    )
 
 
 def get_user_habit(db: Session, habit_id: int, user_id: int) -> Optional[HabitOut]:
@@ -32,7 +36,9 @@ def insert_user_habit(db: Session, user_id: int, habit_in: HabitCreate) -> Habit
     return HabitOut.model_validate(habit)
 
 
-def update_user_habit(db: Session, habit_id: int, user_id: int, habit_in: HabitUpdate) -> HabitOut:
+def update_user_habit(
+    db: Session, habit_id: int, user_id: int, habit_in: HabitUpdate
+) -> HabitOut:
     habit = get_user_habits_query(db, user_id=user_id).filter_by(id=habit_id).first()
     update_data = habit_in.model_dump(exclude_unset=True)
     for field, value in update_data.items():

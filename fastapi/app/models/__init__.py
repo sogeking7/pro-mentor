@@ -5,11 +5,4 @@ from app.models.session import Session
 from app.models.user import User
 from app.models.user_role import UserRole
 
-__all__ = [
-    "Habit",
-    "HabitCompletion",
-    "HabitType",
-    "Session",
-    "User",
-    "UserRole"
-]
+__all__ = ["Habit", "HabitCompletion", "HabitType", "Session", "User", "UserRole"]

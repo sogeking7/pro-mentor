@@ -1,13 +1,12 @@
-from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
+from pydantic import EmailStr
+from sqlalchemy.orm import Session
 
-from app.schemas.session import SessionCreate
-from app.schemas.user import UserCreate
-from app.repositories.user import get_user_by_email, authenticate_user, insert_user
 from app.repositories.session import create_session as create_db_session
 from app.repositories.session import logout_session as logout_db_session
-
-from pydantic import EmailStr
+from app.repositories.user import get_user_by_email, authenticate_user, insert_user
+from app.schemas.session import SessionCreate
+from app.schemas.user import UserCreate
 
 
 def register_user(db: Session, user_in: UserCreate):

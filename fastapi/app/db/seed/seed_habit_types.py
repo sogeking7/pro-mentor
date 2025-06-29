@@ -5,12 +5,7 @@ from app.models import HabitType
 
 logger = get_logger(__name__)
 
-DEFAULT_HABIT_TYPES = [
-    "🧮 IQ",
-    "❤️ EQ",
-    "💪 PQ",
-    "🙏 SQ"
-]
+DEFAULT_HABIT_TYPES = ["🧮 IQ", "❤️ EQ", "💪 PQ", "🙏 SQ"]
 
 
 def seed_habit_types(db: Session):

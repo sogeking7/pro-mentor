@@ -14,7 +14,9 @@ from app.schemas.user_role import UserRoleOut
 def get_user(db: Session, user_id: int) -> Optional[UserOut]:
     user = user_repo.get_user(db, user_id=user_id)
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
 
     return user_repo.get_user(db, user_id)
 
@@ -36,7 +38,9 @@ def create_user(db: Session, user_in: UserCreate) -> UserOut:
 def update_user(db: Session, user_id: int, user_in: UserUpdate) -> UserOut:
     user = user_repo.get_user(db, user_id=user_id)
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
 
     return user_repo.update_user(db, user_id, user_in)
 
@@ -44,7 +48,9 @@ def update_user(db: Session, user_id: int, user_in: UserUpdate) -> UserOut:
 def delete_user(db: Session, user_id: int) -> None:
     user = user_repo.get_user(db, user_id=user_id)
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
 
     user_repo.soft_delete_user(db, user_id)
 

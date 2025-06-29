@@ -1,6 +1,7 @@
 import uuid
 
 from sqlalchemy import Column, Integer, DateTime, func, String, CheckConstraint
+
 from app.db.session import Base
 
 
