@@ -16,5 +16,5 @@ export default [
       route("diagnostics", "routes/diagnostics.tsx"),
     ]),
   ]),
-  route("lifehacks", "routes/lifehacks.tsx"),
+  route("lifehacks", "routes/lifehacks/lifehacks.tsx"),
 ] satisfies RouteConfig;
