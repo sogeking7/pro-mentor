@@ -12,8 +12,7 @@ class HabitCreate(HabitBase):
     pass
 
 
-class HabitUpdate(BaseModel):
-    title: str
+class HabitUpdate(HabitBase):
     pass
 
 

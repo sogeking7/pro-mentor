@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **title** | **string** |  | [default to undefined]
+**habit_type_id** | **number** |  | [default to undefined]
 
 ## Example
 
@@ -14,6 +15,7 @@ import { HabitUpdate } from './api';
 
 const instance: HabitUpdate = {
     title,
+    habit_type_id,
 };
 ```
 

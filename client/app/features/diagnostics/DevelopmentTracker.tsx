@@ -83,6 +83,7 @@ export const DevelopmentTracker = () => {
     toast.success("Сәтті сақталды!");
     form.reset(data);
   }
+
   const current = form.watch("completions");
 
   const initial = todayCompletions
@@ -99,6 +100,10 @@ export const DevelopmentTracker = () => {
 
   if (isHabitsLoading) {
     return <div className="my-4 text-center text-xl">Жүктелуде...</div>;
+  }
+
+  if (habits.length === 0) {
+    return <div className="my-4 text-center text-xl">Сізде әдеттер жоқ</div>;
   }
 
   return (

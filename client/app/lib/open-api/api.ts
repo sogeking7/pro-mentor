@@ -189,6 +189,12 @@ export interface HabitUpdate {
    * @memberof HabitUpdate
    */
   title: string;
+  /**
+   *
+   * @type {number}
+   * @memberof HabitUpdate
+   */
+  habit_type_id: number;
 }
 /**
  *

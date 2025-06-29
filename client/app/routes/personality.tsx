@@ -4,7 +4,7 @@ import GoBackButton from "@/components/custom/GoBackButton";
 import { PageTitle } from "@/components/custom/PageTitle";
 import { DevelopmentTracker } from "@/features/diagnostics/DevelopmentTracker";
 import { SideBar, type SideBarSections } from "@/components/custom/SideBar";
-import { HabitsEdit } from "@/features/diagnostics/HabitsEdit";
+import { HabitsSave } from "@/features/diagnostics/HabitsSave";
 import { HabitsList } from "@/features/diagnostics/HabitsList";
 
 const sections: SideBarSections = [
@@ -164,7 +164,7 @@ const sections: SideBarSections = [
         <h1 className="my-6 text-xl font-medium">📋 Әдеттер тізімі</h1>
         <HabitsList />
         <h1 className="my-6 text-xl font-medium">📝 Жаңа әдет</h1>
-        <HabitsEdit />
+        <HabitsSave />
       </div>
     ),
   },

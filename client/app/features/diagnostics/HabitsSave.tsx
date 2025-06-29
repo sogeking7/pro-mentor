@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
-import type { HabitCreate } from "@/lib/open-api";
+import type { HabitCreate, HabitOut, HabitUpdate } from "@/lib/open-api";
 import {
   Select,
   SelectContent,
@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 const schema = z.object({
   title: z.string().min(6).max(255),
@@ -32,7 +33,23 @@ const schema = z.object({
 
 type Form = z.infer<typeof schema>;
 
-export const HabitsEdit = () => {
+interface EditProps {
+  edit: true;
+  habit: HabitOut;
+  onSaveAction?: () => void;
+  className?: string;
+}
+
+interface CreateProps {
+  edit?: false;
+  habit?: undefined;
+  onSaveAction?: () => void;
+  className?: string;
+}
+
+type HabitsSaveProps = EditProps | CreateProps;
+
+export const HabitsSave = (props: HabitsSaveProps) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
@@ -53,19 +70,44 @@ export const HabitsEdit = () => {
       },
     });
 
+  const { mutateAsync: editHabit, isPending: isEditHabitPending } = useMutation(
+    {
+      mutationFn: async (data: { id: number; habit: HabitUpdate }) =>
+        (await habitApi.updateUserHabit(data.id, data.habit)).data,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["habits"],
+        });
+      },
+    },
+  );
+
   const form = useForm<Form>({
     resolver: zodResolver(schema),
     defaultValues: {
-      title: "",
+      title: props.edit ? props.habit.title : "",
+      habit_type_id: props.edit ? props.habit.habit_type_id : undefined,
     },
   });
 
   async function onSubmit(data: Form) {
-    await createHabit(data);
+    if (!props.edit) {
+      await createHabit(data);
+      form.reset({
+        title: "",
+        habit_type_id: undefined,
+      });
+    } else {
+      if (!props.habit) return;
+      await editHabit({
+        id: props.habit.id,
+        habit: data,
+      });
+    }
     toast.success("Сәтті сақталды!");
-    form.reset({
-      title: "",
-    });
+    if (props.onSaveAction) {
+      props.onSaveAction();
+    }
   }
 
   if (!user) {
@@ -73,7 +115,7 @@ export const HabitsEdit = () => {
   }
 
   return (
-    <div className="md:p-6">
+    <div className={cn(props.className, "md:p-6")}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -122,7 +164,11 @@ export const HabitsEdit = () => {
           <Button
             className="w-full"
             type="submit"
-            disabled={!form.formState.isValid || isCreateHabitPending}
+            disabled={
+              !form.formState.isValid ||
+              isCreateHabitPending ||
+              isEditHabitPending
+            }
           >
             {isCreateHabitPending ? "Жүктелуде..." : "Сақтау"}
           </Button>

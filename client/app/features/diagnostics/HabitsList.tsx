@@ -16,10 +16,19 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import type { HabitOut } from "@/lib/open-api";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { HabitsSave } from "@/features/diagnostics/HabitsSave";
 
 export const HabitsList = () => {
   const { user } = useAuth();
   const [openAlert, setOpenAlert] = React.useState(false);
+  const [openEdit, setOpenEdit] = React.useState(false);
   const [selectedHabit, setSelectedHabit] = React.useState<HabitOut | null>(
     null,
   );
@@ -55,6 +64,9 @@ export const HabitsList = () => {
   return (
     <div className="mx-auto md:p-6">
       <div className="space-y-4">
+        {habits.length === 0 && (
+          <p className="text-center text-xl">Сізде әдеттер жоқ</p>
+        )}
         {habits.map((habit, id) => (
           <div
             className={cn(
@@ -65,7 +77,14 @@ export const HabitsList = () => {
           >
             <label>{id + 1 + ". " + habit.title}</label>
             <div className="absolute right-4 flex items-center gap-2">
-              <Button variant="ghost" size="icon">
+              <Button
+                onClick={() => {
+                  setSelectedHabit(habit);
+                  setOpenEdit(true);
+                }}
+                variant="ghost"
+                size="icon"
+              >
                 <Edit />
               </Button>
               <Button
@@ -113,6 +132,25 @@ export const HabitsList = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      <Dialog open={openEdit} onOpenChange={setOpenEdit}>
+        <form>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Әдет</DialogTitle>
+              <DialogDescription>{selectedHabit?.title}</DialogDescription>
+            </DialogHeader>
+            <HabitsSave
+              className="!p-0"
+              edit
+              habit={selectedHabit!}
+              onSaveAction={() => {
+                setOpenEdit(false);
+                // setSelectedHabit(null);
+              }}
+            />
+          </DialogContent>
+        </form>
+      </Dialog>
     </div>
   );
 };
