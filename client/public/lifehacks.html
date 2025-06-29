@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мұғалімдерге арналған 20 цифрлық лайфхактар - PROmentor</title>
+  <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700;900&display=swap');
+
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+      }
+
+      body {
+          font-family: 'Noto Sans', 'Roboto', 'Arial Unicode MS', sans-serif;
+          line-height: 1.6;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          min-height: 100vh;
+          padding: 20px;
+      }
+
+      .container {
+          max-width: 210mm;
+          margin: 0 auto;
+          background: white;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+          border-radius: 16px;
+          overflow: hidden;
+      }
+
+      .header {
+          background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+          color: white;
+          padding: 50px 40px;
+          text-align: center;
+          position: relative;
+          overflow: hidden;
+      }
+
+      .header::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="25" cy="75" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="25" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+          animation: float 30s infinite linear;
+      }
+
+      @keyframes float {
+          0% {
+              transform: translateX(-50px) translateY(-50px);
+          }
+          100% {
+              transform: translateX(50px) translateY(50px);
+          }
+      }
+
+      .promentor-badge {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          background: rgba(255, 255, 255, 0.2);
+          padding: 12px 24px;
+          border-radius: 30px;
+          font-weight: 600;
+          backdrop-filter: blur(10px);
+          z-index: 3;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .header h1 {
+          font-size: 3.2rem;
+          font-weight: 800;
+          margin-bottom: 15px;
+          position: relative;
+          z-index: 2;
+          background: linear-gradient(45deg, #fff, #e0e7ff);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+      }
+
+      .header .subtitle {
+          font-size: 1.3rem;
+          opacity: 0.9;
+          position: relative;
+          z-index: 2;
+          font-weight: 400;
+      }
+
+      .stats-bar {
+          display: flex;
+          justify-content: center;
+          gap: 40px;
+          margin: 30px 0;
+          position: relative;
+          z-index: 2;
+      }
+
+      .stat-item {
+          text-align: center;
+          background: rgba(255, 255, 255, 0.1);
+          padding: 15px 25px;
+          border-radius: 15px;
+          backdrop-filter: blur(10px);
+      }
+
+      .stat-number {
+          font-size: 2rem;
+          font-weight: 700;
+          display: block;
+      }
+
+      .stat-label {
+          font-size: 0.9rem;
+          opacity: 0.8;
+      }
+
+      .content {
+          padding: 50px 40px;
+      }
+
+      .intro-section {
+          text-align: center;
+          margin-bottom: 50px;
+          padding: 30px;
+          background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%);
+          border-radius: 16px;
+          border: 2px solid #e0e7ff;
+      }
+
+      .intro-section h2 {
+          color: #1e3c72;
+          font-size: 2rem;
+          margin-bottom: 15px;
+          font-weight: 700;
+      }
+
+      .intro-section p {
+          color: #666;
+          font-size: 1.1rem;
+          max-width: 600px;
+          margin: 0 auto;
+      }
+
+      .tools-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+          gap: 30px;
+          margin: 40px 0;
+      }
+
+      .tool-card {
+          background: white;
+          border-radius: 16px;
+          padding: 30px;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+          border: 2px solid #f1f5f9;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+      }
+
+      .tool-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+          border-color: #667eea;
+      }
+
+      .tool-header {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          margin-bottom: 20px;
+      }
+
+      .tool-icon {
+          width: 50px;
+          height: 50px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.5rem;
+          color: white;
+          font-weight: bold;
+      }
+
+      .tool-title {
+          flex: 1;
+      }
+
+      .tool-name {
+          font-size: 1.4rem;
+          font-weight: 700;
+          color: #1e3c72;
+          margin-bottom: 5px;
+      }
+
+      .tool-purpose {
+          color: #667eea;
+          font-weight: 500;
+          font-size: 0.95rem;
+      }
+
+      .tool-description {
+          color: #666;
+          margin-bottom: 20px;
+          line-height: 1.6;
+      }
+
+      .guide-section h4 {
+          color: #1e3c72;
+          font-weight: 600;
+          margin-bottom: 12px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+      }
+
+      .guide-steps {
+          background: #f8f9ff;
+          padding: 20px;
+          border-radius: 12px;
+          margin: 15px 0;
+          border-left: 4px solid #667eea;
+      }
+
+      .guide-steps ol {
+          margin-left: 20px;
+          color: #555;
+      }
+
+      .guide-steps li {
+          margin-bottom: 8px;
+          line-height: 1.5;
+      }
+
+      .benefit-box {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          padding: 15px 20px;
+          border-radius: 10px;
+          margin-top: 15px;
+          font-weight: 500;
+      }
+
+      .benefit-box strong {
+          font-weight: 600;
+      }
+
+      .url-box {
+          background: #1e3c72;
+          color: white;
+          padding: 12px 20px;
+          border-radius: 8px;
+          font-family: 'Monaco', 'Menlo', monospace;
+          font-size: 0.9rem;
+          margin: 10px 0;
+          word-break: break-all;
+          text-align: center;
+          font-weight: 500;
+      }
+
+      .url-link {
+          color: white;
+          text-decoration: none;
+          font-weight: 500;
+      }
+
+      .url-link:hover {
+          text-decoration: underline;
+      }
+
+      .category-header {
+          background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+          color: white;
+          padding: 20px;
+          border-radius: 12px;
+          margin: 40px 0 20px 0;
+          text-align: center;
+          font-size: 1.5rem;
+          font-weight: 700;
+      }
+
+      .footer {
+          background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+          color: white;
+          padding: 40px;
+          text-align: center;
+      }
+
+      .footer h3 {
+          font-size: 1.8rem;
+          margin-bottom: 15px;
+          font-weight: 700;
+      }
+
+      .footer p {
+          opacity: 0.9;
+          font-size: 1.1rem;
+          margin-bottom: 10px;
+      }
+
+      .footer .copyright {
+          margin-top: 20px;
+          opacity: 0.7;
+          font-size: 0.9rem;
+      }
+
+      .print-button {
+          position: fixed;
+          bottom: 30px;
+          right: 30px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          border: none;
+          padding: 18px 28px;
+          border-radius: 50px;
+          font-weight: 600;
+          cursor: pointer;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+          transition: all 0.3s ease;
+          z-index: 1000;
+          font-size: 1rem;
+      }
+
+      .print-button:hover {
+          transform: translateY(-3px) scale(1.05);
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      @media print {
+          body {
+              background: white;
+              padding: 0;
+          }
+
+          .container {
+              box-shadow: none;
+              border-radius: 0;
+          }
+
+          .print-button {
+              display: none;
+          }
+      }
+
+      @media (max-width: 768px) {
+          .tools-grid {
+              grid-template-columns: 1fr;
+          }
+
+          .stats-bar {
+              flex-direction: column;
+              gap: 15px;
+          }
+
+          .header h1 {
+              font-size: 2.5rem;
+          }
+      }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="promentor-badge">PRO-mentor.kz</div>
+    <h1>20 Цифрлық лайфхактар</h1>
+    <p class="subtitle">Заманауи мұғалімдерге арналған практикалық құралдар</p>
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-number">20</span>
+        <span class="stat-label">Құрал</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">⚡</span>
+        <span class="stat-label">Жылдам</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">💡</span>
+        <span class="stat-label">Пайдалы</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="intro-section">
+      <h2>🚀 Сабағыңызды жаңа деңгейге көтеріңіз!</h2>
+      <p>Осы 20 тамаша цифрлық құрал арқылы сабақтарыңызды интерактивті, тиімді және қызықты етіңіз.</p>
+    </div>
+
+    <div class="category-header">📄 Құжаттармен жұмыс және ақпарат басқару</div>
+
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">🌐</div>
+          <div class="tool-title">
+            <div class="tool-name">DosTranslator</div>
+            <div class="tool-purpose">Құжаттарды автоматты аудару</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          PDF, Word құжаттарын тез әрі оңай басқа тілге аударып алу үшін тамаша құрал.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Сайтқа кіріңіз</li>
+              <li>Құжатты жүктеңіз</li>
+              <li>Аударылатын тілді таңдаңыз (орысшадан қазақшаға)</li>
+              <li>«Translate» батырмасын басыңыз</li>
+              <li>Аударылған нұсқасын жүктеп алыңыз</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://dostranslator.com" target="_blank" class="url-link">https://dostranslator.com</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Әріптестермен немесе оқушылармен құжаттарды көп тілді түрде бөлісуге ыңғайлы
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">📫</div>
+          <div class="tool-title">
+            <div class="tool-name">Temp.Mail</div>
+            <div class="tool-purpose">Уақытша электронды пошта</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Уақытша поштамен тіркелу, спамнан сақтану үшін керемет шешім.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Сайтқа кіріңіз</li>
+              <li>Сізге автоматты түрде пошта мекенжайы беріледі</li>
+              <li>Сол пошта арқылы қажет платформаға тіркеліңіз</li>
+              <li>Хаттар автоматты түрде сайт бетінде көрінеді</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://temp-mail.org" target="_blank" class="url-link">https://temp-mail.org</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Уақытша тіркелу қажет болғанда жеке поштаңызды қолданбайсыз
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-header">⏰ Уақытты басқару және мультимедиа</div>
+
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">⏱</div>
+          <div class="tool-title">
+            <div class="tool-name">Stopwatch & Timer</div>
+            <div class="tool-purpose">Сабақтағы уақыт бақылауы</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Таймер арқылы уақытты қадағалау (тапсырмаға бөлінген уақыт үшін).
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Сайтқа кіріңіз</li>
+              <li>Қалауыңыз бойынша таймер немесе секундомер таңдаңыз</li>
+              <li>Уақытты қойып, іске қосыңыз</li>
+              <li>Қоңырау дыбысы арқылы оқушыларға уақыт аяқталғанын білдіріңіз</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://www.online-stopwatch.com" target="_blank"
+               class="url-link">https://www.online-stopwatch.com</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Уақытты тиімді басқаруға көмектеседі
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">🎥</div>
+          <div class="tool-title">
+            <div class="tool-name">Loom</div>
+            <div class="tool-purpose">Экран және видео жазу</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Сабақ түсіндіруді экранмен бірге өзіңіздің даусыңыз және бет бейнеңізді жазу.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Сайтқа кіріңіз</li>
+              <li>Аккаунт ашыңыз (мұғалімдерге Premium)</li>
+              <li>«Record» батырмасын басып, экран мен камераны таңдаңыз</li>
+              <li>Жазба аяқталған соң, сілтемені оқушылармен бөлісе аласыз</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://www.loom.com" target="_blank" class="url-link">https://www.loom.com</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Қайта қарауға болатын видео-нұсқаулықтар жасау оңай
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-header">🎨 Интерактивті сабақ құралдары</div>
+
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">🎨</div>
+          <div class="tool-title">
+            <div class="tool-name">Gynzy</div>
+            <div class="tool-purpose">Интерактивті сабақ құралдары</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Интерактивті тақтада сабақ өткізуге арналған құралдар жиынтығы.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Сайтқа кіріңіз</li>
+              <li>Аккаунт ашып, панельге кіріңіз</li>
+              <li>Сабаққа қажет құралдарды таңдаңыз: математикалық сызғыш, тақырыптық слайдтар, ойындар</li>
+              <li>Барлығын бір жерде қолдана аласыз – онлайн тақта ретінде</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://www.gynzy.com" target="_blank" class="url-link">https://www.gynzy.com</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Интерактивті, визуалды материалдар сабаққа қызығушылықты арттырады
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">🟢</div>
+          <div class="tool-title">
+            <div class="tool-name">Bouncy Balls</div>
+            <div class="tool-purpose">Шу деңгейін бақылау</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Сыныптағы шуды визуалды түрде көрсетіп, оқушыларды тәртіпке шақыру.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Сайтқа кіріп микрофонға рұқсат беріңіз</li>
+              <li>Оқушылар сөйлегенде немесе шуды көтергенде шарлар секіреді</li>
+              <li>Дыбыс азайса, шарлар тынышталады</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://bouncyballs.org" target="_blank" class="url-link">https://bouncyballs.org</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Оқушыларға визуалды кері байланыс беріп, тәртіп сақтауға көмектеседі
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">🎯</div>
+          <div class="tool-title">
+            <div class="tool-name">Baamboozle</div>
+            <div class="tool-purpose">Топтық ойындар мен викториналар</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Сабақта көңілді топтық жарыс ойындарын өткізу.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Дайын ойындардан таңдаңыз немесе өз сұрақтарыңызды жасаңыз</li>
+              <li>Сыныпты топқа бөліп, тақтада ойынды қосыңыз</li>
+              <li>Оқушылар жауап берген сайын ұпай беріледі</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://www.baamboozle.com" target="_blank" class="url-link">https://www.baamboozle.com</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Сабақта көңіл-күйді көтереді, белсенділік артады
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">📊</div>
+          <div class="tool-title">
+            <div class="tool-name">Plickers</div>
+            <div class="tool-purpose">Смартфоны жоқ оқушылардан кері байланыс алу</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Оқушылар смартфонсыз, мұғалімнің телефоны арқылы жауап береді.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Оқушыларға арналған арнайы QR кодтарды басып шығарыңыз</li>
+              <li>Сұрақты экраннан көрсетіңіз, оқушы кодты ұстайды</li>
+              <li>Мұғалім Plickers қолданбасымен оқушылардың жауаптарын сканерлейді</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://www.plickers.com" target="_blank" class="url-link">https://www.plickers.com</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Технологиясы шектеулі сыныптар үшін тиімді, интерактивті құрал
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-header">🧠 AI және автоматтандыру</div>
+
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">🧠</div>
+          <div class="tool-title">
+            <div class="tool-name">Brained</div>
+            <div class="tool-purpose">Сабақ жоспарын AI көмегімен жасау</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Сабақ жоспарын автоматты түрде құру, тапсырмалар ұсыну.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Сабақтың тақырыбын, деңгейін, пәнін енгізіңіз</li>
+              <li>Платформа сізге толық сабақ жоспарын (мақсат, материал, тапсырма) ұсынады</li>
+              <li>Жүктеп алып қолдануға болады</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://brained.ai" target="_blank" class="url-link">https://brained.ai</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Уақытты үнемдеп, тиімді жоспар құруға көмек береді
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">🔢</div>
+          <div class="tool-title">
+            <div class="tool-name">Equatio</div>
+            <div class="tool-purpose">Формулаларды цифрлы жазу</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Математика, физика сабақтарында формулаларды оңай енгізу.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Chrome кеңейтім ретінде орнатыңыз</li>
+              <li>Дауыспен, мәтінмен немесе қолмен формула жазыңыз</li>
+              <li>Google Docs, Forms сияқты платформалармен интеграцияланады</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://chrome.google.com/webstore/search/equatio" target="_blank" class="url-link">Chrome Web
+              Store: Equatio</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Формула жазуды тездетеді, оқушылармен цифрлы жұмыс парақтарын жасауға болады
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-header">📚 Тапсырма және бағалау</div>
+
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">📚</div>
+          <div class="tool-title">
+            <div class="tool-name">ReadTheory</div>
+            <div class="tool-purpose">Оқушыларға арналған оқу деңгейін арттыру</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Ағылшын тілінде оқуды дамытатын бейімделетін тапсырмалар.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Мұғалім ретінде тіркеліңіз</li>
+              <li>Оқушыларға аккаунт жасаңыз немесе код жіберіңіз</li>
+              <li>Сайт оқушының деңгейіне қарай мәтін мен сұрақтар береді</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://readtheory.org" target="_blank" class="url-link">https://readtheory.org</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Дифференциалды оқытуға таптырмас құрал (әсіресе тіл үйретуде)
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">📎</div>
+          <div class="tool-title">
+            <div class="tool-name">Wizer.me</div>
+            <div class="tool-purpose">Интерактивті жұмыс парағы</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Онлайн тапсырмалар жасауды автоматтандыру (тестілеу, сәйкестік, ашық сұрақ).
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>"Create Worksheet" → сұрақ түрлерін қосыңыз (тест, мәтін, сурет)</li>
+              <li>Оқушы орындаған соң, жүйе автоматты түрде бағалайды</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://www.wizer.me" target="_blank" class="url-link">https://www.wizer.me</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Цифрлы бағалау және тапсырма жасау жеңіл әрі ыңғайлы
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">🎥</div>
+          <div class="tool-title">
+            <div class="tool-name">Edpuzzle</div>
+            <div class="tool-purpose">Видеоға сұрақ енгізу</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          YouTube видеоларына сұрақ қойып, бақылау жұмысын жасау.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Видео таңдаңыз (немесе жүктеңіз)</li>
+              <li>Қажетті жеріне сұрақ қосыңыз (multiple choice немесе ашық)</li>
+              <li>Оқушы видео көріп отырып, сұрақтарға жауап береді</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://edpuzzle.com" target="_blank" class="url-link">https://edpuzzle.com</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Оқушының видеоны түсіну деңгейін нақты тексереді
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-header">🎮 Қосымша пайдалы құралдар</div>
+
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">📋</div>
+          <div class="tool-title">
+            <div class="tool-name">Kahoot</div>
+            <div class="tool-purpose">Интерактивті викторина</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Сабақты қызықты етуге арналған викторина ойындары.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Аккаунт ашып, викторина жасаңыз</li>
+              <li>Оқушыларға PIN код беріңіз</li>
+              <li>Нақты уақытта сұрақтарға жауап береді</li>
+              <li>Рейтинг көрсетіледі</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://kahoot.com" target="_blank" class="url-link">https://kahoot.com</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Сабаққа серпін мен бәсекелестік қосады
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">📊</div>
+          <div class="tool-title">
+            <div class="tool-name">Mentimeter</div>
+            <div class="tool-purpose">Сұрақ-жауап және сауалнама</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Нақты уақытта пікір жинау және интерактивті презентация жасау.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Презентация жасап, сұрақтар қосыңыз</li>
+              <li>Оқушылар телефонмен кодты енгізеді</li>
+              <li>Нәтижелер нақты уақытта көрінеді</li>
+              <li>Сөз бұлты, дауыс беру мүмкіндіктері бар</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://www.mentimeter.com" target="_blank" class="url-link">https://www.mentimeter.com</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Барлық оқушының пікірін жинап, талдауға болады
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">🎨</div>
+          <div class="tool-title">
+            <div class="tool-name">Canva</div>
+            <div class="tool-purpose">Презентация және постер жасау</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Әдемі презентациялар, постерлер, инфографика жасау.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Мұғалім аккаунтын ашыңыз</li>
+              <li>Дайын үлгілерден таңдаңыз</li>
+              <li>Мәтін, сурет, элементтер қосыңыз</li>
+              <li>PDF немесе PNG форматында жүктеңіз</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://www.canva.com" target="_blank" class="url-link">https://www.canva.com</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Кәсіби көрінетін материалдарды жылдам жасауға болады
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">📝</div>
+          <div class="tool-title">
+            <div class="tool-name">Padlet</div>
+            <div class="tool-purpose">Бірлескен жұмыс тақтасы</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Оқушыларға идеяларын, жұмыстарын бөлісуге мүмкіндік беретін виртуалды тақта.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Тақта жасап, сілтемені оқушыларға беріңіз</li>
+              <li>Оқушылар мәтін, сурет, видео жүктей алады</li>
+              <li>Нақты уақытта бірлескен жұмыс істеуге болады</li>
+              <li>Сабақ соңында нәтижелерді сақтаңыз</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://padlet.com" target="_blank" class="url-link">https://padlet.com</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Топтық жұмыс пен ынтымақтастықты дамытады
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">🔍</div>
+          <div class="tool-title">
+            <div class="tool-name">Quizlet</div>
+            <div class="tool-purpose">Флэш-карталар мен жаттығулар</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Сөздік, терминдер мен ұғымдарды жаттауға арналған интерактивті карталар.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Терминдер мен анықтамаларды енгізіңіз</li>
+              <li>Әртүрлі ойын режимдерін таңдаңыз</li>
+              <li>Оқушылармен сетті бөлісіңіз</li>
+              <li>Прогресс пен нәтижелерді қадағалаңыз</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://quizlet.com" target="_blank" class="url-link">https://quizlet.com</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Сөздік пен терминдерді тиімді жаттауға көмектеседі
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">🎯</div>
+          <div class="tool-title">
+            <div class="tool-name">Classroomscreen</div>
+            <div class="tool-purpose">Виртуалды сынып тақтасы</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Интерактивті тақтада барлық қажетті құралдар бір жерде жиналған.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Браузерде ашып, құралдарды таңдаңыз</li>
+              <li>Таймер, дыбыс деңгейі, мәтін аймақтарын қосыңыз</li>
+              <li>QR кодтар мен сілтемелерді қосыңыз</li>
+              <li>Экранды оқушыларға көрсетіңіз</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://classroomscreen.com" target="_blank" class="url-link">https://classroomscreen.com</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Сабақты ұйымдастыруға көмектесетін барлық құралдар бір жерде
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">🌐</div>
+          <div class="tool-title">
+            <div class="tool-name">Flipgrid</div>
+            <div class="tool-purpose">Видео дискуссиялар мен жобалар</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Оқушылар видео арқылы пікірлерін, жауаптарын бөлісетін интерактивті платформа.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Топ жасап, тақырып қойыңыз</li>
+              <li>Оқушыларға қосылу кодын беріңіз</li>
+              <li>Олар қысқа видео жауаптар жасайды</li>
+              <li>Басқа оқушылар видеоларға жауап бере алады</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://flipgrid.com" target="_blank" class="url-link">https://flipgrid.com</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Ауызша дағдыларды дамытады, ұялшақ оқушылар да белсенді болады
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">🎤</div>
+          <div class="tool-title">
+            <div class="tool-name">Talking Code</div>
+            <div class="tool-purpose">QR код арқылы дауыстық хабарлама</div>
+          </div>
+        </div>
+        <div class="tool-description">
+          Дауыстық хабарламаларды QR кодқа түрлендіріп, оқушылармен бөлісу.
+        </div>
+        <div class="guide-section">
+          <h4>📋 Қолдану гайды:</h4>
+          <div class="guide-steps">
+            <ol>
+              <li>Дауыстық хабарламаны жазып алыңыз</li>
+              <li>Платформаға жүктеп, QR код алыңыз</li>
+              <li>QR кодты басып шығарып, оқушыларға беріңіз</li>
+              <li>Оқушылар телефонмен сканерлеп, хабарламаны тыңдайды</li>
+            </ol>
+          </div>
+          <div class="url-box">
+            <a href="https://www.talkingcode.com" target="_blank" class="url-link">https://www.talkingcode.com</a>
+          </div>
+          <div class="benefit-box">
+            <strong>Пайдасы:</strong> Тыңдалым дағдыларын дамытады, нұсқаулықтарды дауыспен беруге болады
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <h3>PRO-mentor.kz</h3>
+    <p>Заманауи білім беру әдістемелері мен инновациялық тәсілдер</p>
+    <p>Мұғалімдердің кәсіби дамуы мен сапалы білім беруге арналған платформа</p>
+    <p class="copyright">© 2025 PROmentor. Барлық құқықтар қорғалған.</p>
+  </div>
+</div>
+
+<button class="print-button" onclick="window.print()">📄 PDF сақтау</button>
+
+<script>
+  // Smooth animations on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "translateY(0)";
+      }
+    });
+  });
+
+  document.querySelectorAll(".tool-card").forEach((el) => {
+    el.style.opacity = "0";
+    el.style.transform = "translateY(20px)";
+    el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+    observer.observe(el);
+  });
+
+  // Print functionality
+  function printPDF() {
+    window.print();
+  }
+
+  // Hover effects for tool cards
+  document.querySelectorAll(".tool-card").forEach(card => {
+    card.addEventListener("mouseenter", function() {
+      this.style.transform = "translateY(-8px) scale(1.02)";
+    });
+
+    card.addEventListener("mouseleave", function() {
+      this.style.transform = "translateY(0) scale(1)";
+    });
+  });
+</script>
+</body>
+</html>

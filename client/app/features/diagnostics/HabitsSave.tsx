@@ -123,7 +123,7 @@ export const HabitsSave = (props: HabitsSaveProps) => {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Әдет</FormLabel>
+                <FormLabel>Әдет атауы</FormLabel>
                 <FormControl>
                   <Input placeholder="Мысалы: 30 минут кітап оқу" {...field} />
                 </FormControl>
@@ -145,7 +145,7 @@ export const HabitsSave = (props: HabitsSaveProps) => {
                 >
                   <FormControl>
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Рөлді таңдаңыз" />
+                      <SelectValue placeholder="Әдет түрін таңдаңыз" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>

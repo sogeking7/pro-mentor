@@ -6,6 +6,7 @@ import { DevelopmentTracker } from "@/features/diagnostics/DevelopmentTracker";
 import { SideBar, type SideBarSections } from "@/components/custom/SideBar";
 import { HabitsSave } from "@/features/diagnostics/HabitsSave";
 import { HabitsList } from "@/features/diagnostics/HabitsList";
+import { DevelopmentSuite } from "@/features/diagnostics/DevelopmentSuit";
 
 const sections: SideBarSections = [
   {
@@ -115,6 +116,72 @@ const sections: SideBarSections = [
             <li>Серпіну минуттары</li>
           </ul>
         </div>
+
+        <div className="rounded-lg bg-blue-50 p-4">
+          <h4 className="mb-2 font-semibold">🏃 Күнделікті жаттығулар:</h4>
+          <div className="grid gap-3">
+            <div className="flex items-center space-x-3 rounded-lg border border-gray-200 p-3">
+              <span className="text-2xl">🫁</span>
+              <div>
+                <h5 className="font-medium text-blue-800">
+                  Тыныс алу жаттығуы
+                </h5>
+                <p className="text-sm text-gray-600">
+                  4-7-8 әдісі: 4 санап дем алу, 7 санап ұстау, 8 санап шығару
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-3 rounded-lg border border-gray-200 p-3">
+              <span className="text-2xl">👁️</span>
+              <div>
+                <h5 className="font-medium text-blue-800">Көз жаттығулары</h5>
+                <p className="text-sm text-gray-600">
+                  20-20-20 ережесі: 20 минут сайын, 20 секунд, 20 фут қашықтыққа
+                  қарау
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-3 rounded-lg border border-gray-200 p-3">
+              <span className="text-2xl">💆</span>
+              <div>
+                <h5 className="font-medium text-blue-800">
+                  Мойын және иық массажы
+                </h5>
+                <p className="text-sm text-gray-600">
+                  Дөңгелек қозғалыстармен мойын мен иықты босаңсыту
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-3 rounded-lg border border-gray-200 p-3">
+              <span className="text-2xl">🪑</span>
+              <div>
+                <h5 className="font-medium text-blue-800">
+                  Дұрыс отыру позасы
+                </h5>
+                <p className="text-sm text-gray-600">
+                  Арқа тік, аяқ жерде, экран көз деңгейінде
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-lg bg-red-50 p-4">
+          <h4 className="mb-2 font-semibold">
+            ⚠️ Мұғалімдерге арналған денсаулық кеңестері:
+          </h4>
+          <ul className="list-inside list-disc space-y-1 text-gray-700">
+            <li>
+              Дауыстың саулығын сақтау (жылы сусын ішу, дауысты дем алдыру)
+            </li>
+            <li>Аяқтағы ауыртпалықты азайту (ыңғайлы аяқ киім)</li>
+            <li>Стресс деңгейін төмендету (демалыс пен жұмыс тепе-теңдігі)</li>
+            <li>Көзді экраннан қорғау (жиі үзіліс жасау)</li>
+          </ul>
+        </div>
       </div>
     ),
   },
@@ -125,7 +192,7 @@ const sections: SideBarSections = [
         <div className="rounded-lg bg-purple-50 p-4">
           <h4 className="mb-2 font-semibold">Рухани интеллект дегеніміз не?</h4>
           <p className="text-gray-700">
-            Өмірдің мағынасын табу, құндылықтарды анықтау және рухани дамуға
+            Өмірдің мағынасын түсіну, құндылықтарды анықтау және рухани дамуға
             ұмтылу қабілеті.
           </p>
         </div>
@@ -150,8 +217,35 @@ const sections: SideBarSections = [
             <li>Өмірлік тепе-теңдік сақтау</li>
           </ul>
         </div>
+
+        <div className="rounded-lg bg-yellow-50 p-4">
+          <h4 className="mb-2 font-semibold">🌟 Практикалық жаттығулар:</h4>
+          <div className="space-y-3">
+            <div className="rounded-lg border border-gray-200 p-3">
+              <h5 className="font-medium text-purple-800">
+                🧘 Күнделікті медитация
+              </h5>
+              <p className="text-sm text-gray-600">
+                5-10 минут тыныш отырып, тыныс алуға назар аудару
+              </p>
+            </div>
+            <div className="rounded-lg border border-gray-200 p-3">
+              <h5 className="font-medium text-purple-800">
+                💎 Құндылықтарды анықтау
+              </h5>
+              <p className="text-sm text-gray-600">
+                Өзіңіз үшін маңызды 5 құндылықты жазып, неліктен маңызды екенін
+                түсіндіру
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     ),
+  },
+  {
+    title: "🧰 Өнімділік құралдары",
+    content: <DevelopmentSuite />,
   },
   {
     title: "📊 Даму трекері",

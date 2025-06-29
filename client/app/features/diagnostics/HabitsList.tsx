@@ -4,7 +4,7 @@ import React from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash } from "lucide-react";
+import { Edit } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -85,7 +85,7 @@ export const HabitsList = () => {
                 variant="ghost"
                 size="icon"
               >
-                <Edit />
+                ✏️
               </Button>
               <Button
                 onClick={() => {
@@ -95,7 +95,7 @@ export const HabitsList = () => {
                 variant="ghost"
                 size="icon"
               >
-                <Trash className="text-destructive" />
+                🗑️
               </Button>
             </div>
           </div>
@@ -104,7 +104,7 @@ export const HabitsList = () => {
       <AlertDialog open={openAlert} onOpenChange={setOpenAlert}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Сіз толық сенімдісіз бе?</AlertDialogTitle>
+            <AlertDialogTitle>Әдетті жою 🗑️️</AlertDialogTitle>
             <AlertDialogDescription>
               {selectedHabit?.title}
             </AlertDialogDescription>
@@ -112,6 +112,7 @@ export const HabitsList = () => {
           <AlertDialogFooter>
             <AlertDialogCancel>Болдырмау</AlertDialogCancel>
             <AlertDialogAction
+              className={"bg-destructive hover:bg-destructive/90"}
               disabled={isDeleteHabitPending}
               onClick={async () => {
                 if (!selectedHabit) return;
@@ -120,14 +121,7 @@ export const HabitsList = () => {
                 });
               }}
             >
-              {isDeleteHabitPending ? (
-                <>Жүктелуде...</>
-              ) : (
-                <>
-                  <Trash className="" />
-                  Жою
-                </>
-              )}
+              {isDeleteHabitPending ? <>Жүктелуде...</> : <>Жою</>}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -136,7 +130,7 @@ export const HabitsList = () => {
         <form>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Әдет</DialogTitle>
+              <DialogTitle>Әдетті өңдеу ✏️</DialogTitle>
               <DialogDescription>{selectedHabit?.title}</DialogDescription>
             </DialogHeader>
             <HabitsSave

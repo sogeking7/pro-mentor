@@ -1,6 +1,7 @@
 import AppHeader from "@/components/layouts/AppHeader";
 import { Container } from "@/ui/Container";
 import { Outlet } from "react-router";
+import AppFooter from "@/components/layouts/AppFooter";
 
 export default function HomeLayout() {
   return (
@@ -9,6 +10,7 @@ export default function HomeLayout() {
       <Container className="min-h-[calc(100vh-64px)] w-full py-6">
         <Outlet />
       </Container>
+      <AppFooter />
     </div>
   );
 }
