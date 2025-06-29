@@ -1,5 +1,6 @@
 from datetime import datetime, time
 from typing import List, Optional
+from zoneinfo import ZoneInfoNotFoundError, ZoneInfo
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
@@ -78,10 +79,28 @@ def save_habit_completion(
     return HabitCompletionOut.model_validate(habit_completion)
 
 
-def get_today_habit_completions(db: Session, user_id: int) -> List[HabitCompletionOut]:
-    today = datetime.now().date()
-    start_date = datetime.combine(today, time.min)  # 00:00:00
-    end_date = datetime.combine(today, time.max)  # 23:59:59.999999
+def get_today_habit_completions(
+    db: Session, user_id: int, timezone_str: str
+) -> List[HabitCompletionOut]:
+    try:
+        # Create a timezone object from the string provided by the user
+        user_tz = ZoneInfo(timezone_str)
+    except ZoneInfoNotFoundError:
+        # If the user sends a bogus timezone, fall back to UTC
+        user_tz = ZoneInfo("UTC")
+
+    # Get the current moment IN THE USER'S TIMEZONE
+    now_in_user_tz = datetime.now(user_tz)
+    today_in_user_tz = now_in_user_tz.date()
+
+    # Create the start and end of the day.
+    # Crucially, attach the user's timezone info to make them "aware" datetimes.
+    start_date = datetime.combine(today_in_user_tz, time.min, tzinfo=user_tz)
+    end_date = datetime.combine(today_in_user_tz, time.max, tzinfo=user_tz)
+
+    # These start_date and end_date objects now correctly represent the beginning and end
+    # of the day in the user's specific timezone.
+    # e.g., start_date could be <2025-06-30 00:00:00+05:00> for a user in Astana
 
     return habit_completion_repo.get_habit_completions_range(
         db, user_id=user_id, start_date=start_date, end_date=end_date

@@ -31,7 +31,10 @@ export const DevelopmentTracker = () => {
 
   const { data: todayCompletions = [] } = useQuery({
     queryKey: ["today_habits_completions"],
-    queryFn: async () => (await habitApi.todayHabitCompletions()).data,
+    queryFn: async () => {
+      const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      return (await habitApi.todayHabitCompletions(userTimezone)).data;
+    },
   });
 
   const { data: habits = [], isLoading: isHabitsLoading } = useQuery({

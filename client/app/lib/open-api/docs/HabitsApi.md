@@ -272,11 +272,18 @@ import {
 const configuration = new Configuration();
 const apiInstance = new HabitsApi(configuration);
 
-const { status, data } = await apiInstance.todayHabitCompletions();
+let timezone: string; //User\'s timezone (optional) (default to 'UTC')
+
+const { status, data } = await apiInstance.todayHabitCompletions(
+    timezone
+);
 ```
 
 ### Parameters
-This endpoint does not have any parameters.
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **timezone** | [**string**] | User\&#39;s timezone | (optional) defaults to 'UTC'|
 
 
 ### Return type

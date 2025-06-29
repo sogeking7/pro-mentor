@@ -1140,10 +1140,12 @@ export const HabitsApiAxiosParamCreator = function (
     /**
      *
      * @summary Today Habit Completions
+     * @param {string} [timezone] User\&#39;s timezone
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     todayHabitCompletions: async (
+      timezone?: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/habits/today_habit_completions`;
@@ -1170,6 +1172,10 @@ export const HabitsApiAxiosParamCreator = function (
         [],
         configuration,
       );
+
+      if (timezone !== undefined) {
+        localVarQueryParameter["timezone"] = timezone;
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
@@ -1419,10 +1425,12 @@ export const HabitsApiFp = function (configuration?: Configuration) {
     /**
      *
      * @summary Today Habit Completions
+     * @param {string} [timezone] User\&#39;s timezone
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async todayHabitCompletions(
+      timezone?: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -1431,7 +1439,10 @@ export const HabitsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<Array<HabitCompletionOut>>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.todayHabitCompletions(options);
+        await localVarAxiosParamCreator.todayHabitCompletions(
+          timezone,
+          options,
+        );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap["HabitsApi.todayHabitCompletions"]?.[
@@ -1568,14 +1579,16 @@ export const HabitsApiFactory = function (
     /**
      *
      * @summary Today Habit Completions
+     * @param {string} [timezone] User\&#39;s timezone
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     todayHabitCompletions(
+      timezone?: string,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<Array<HabitCompletionOut>> {
       return localVarFp
-        .todayHabitCompletions(options)
+        .todayHabitCompletions(timezone, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -1684,13 +1697,17 @@ export class HabitsApi extends BaseAPI {
   /**
    *
    * @summary Today Habit Completions
+   * @param {string} [timezone] User\&#39;s timezone
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof HabitsApi
    */
-  public todayHabitCompletions(options?: RawAxiosRequestConfig) {
+  public todayHabitCompletions(
+    timezone?: string,
+    options?: RawAxiosRequestConfig,
+  ) {
     return HabitsApiFp(this.configuration)
-      .todayHabitCompletions(options)
+      .todayHabitCompletions(timezone, options)
       .then((request) => request(this.axios, this.basePath));
   }
 

@@ -1,6 +1,6 @@
 from typing import Annotated, List
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, Query
 from sqlalchemy.orm import Session
 
 from app.api.dependencies import get_db, get_current_user
@@ -40,9 +40,12 @@ def save_habit_completion(
 def today_habit_completions(
     current_user: CurrentUser,
     db: DbSession,
+    timezone: str = Query("UTC", description="User's timezone"),
 ):
     user_id = current_user.id
-    return habit_service.get_today_habit_completions(db=db, user_id=user_id)
+    return habit_service.get_today_habit_completions(
+        db=db, user_id=user_id, timezone_str=timezone
+    )
 
 
 @router.post("/", response_model=HabitOut)

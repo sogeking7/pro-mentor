@@ -11,6 +11,12 @@ importers:
       '@hookform/resolvers':
         specifier: ^3.10.0
         version: 3.10.0(react-hook-form@7.59.0(react@19.1.0))
+      '@lottiefiles/dotlottie-react':
+        specifier: ^0.14.2
+        version: 0.14.2(react@19.1.0)
+      '@lottiefiles/dotlottie-web':
+        specifier: ^0.47.0
+        version: 0.47.0
       '@radix-ui/react-accordion':
         specifier: ^1.2.1
         version: 1.2.11(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -592,6 +598,14 @@ packages:
   '@js-temporal/polyfill@0.4.4':
     resolution: {integrity: sha512-2X6bvghJ/JAoZO52lbgyAPFj8uCflhTo2g7nkFzEQdXd/D8rEeD4HtmTEpmtGCva260fcd66YNXBOYdnmHqSOg==}
     engines: {node: '>=12'}
+
+  '@lottiefiles/dotlottie-react@0.14.2':
+    resolution: {integrity: sha512-RR4r0HrKQbOAw6iS6C3mRARS2iu+yI+G1vICoUsRMHzlUUk1/26l3WyAjhcG+KoaGoKmORx8FgHjTNr4Sr/2Ug==}
+    peerDependencies:
+      react: ^17 || ^18 || ^19
+
+  '@lottiefiles/dotlottie-web@0.47.0':
+    resolution: {integrity: sha512-YN6wSB4iYZBYEAFKEs/taufrPH3rfNlUA632Ib61WoR58TALAJ1ZX8yDIGUBT28byMJhZR4+xdpRX4v7X8OeBQ==}
 
   '@mdx-js/esbuild@2.3.0':
     resolution: {integrity: sha512-r/vsqsM0E+U4Wr0DK+0EfmABE/eg+8ITW4DjvYdh3ve/tK2safaqHArNnaqbOk1DjYGrhxtoXoGaM3BY8fGBTA==}
@@ -4236,6 +4250,13 @@ snapshots:
     dependencies:
       jsbi: 4.3.2
       tslib: 2.8.1
+
+  '@lottiefiles/dotlottie-react@0.14.2(react@19.1.0)':
+    dependencies:
+      '@lottiefiles/dotlottie-web': 0.47.0
+      react: 19.1.0
+
+  '@lottiefiles/dotlottie-web@0.47.0': {}
 
   '@mdx-js/esbuild@2.3.0(esbuild@0.25.5)':
     dependencies:

@@ -11,7 +11,7 @@ export default function GoBackButton({
   return (
     <NavLink
       to={path}
-      className={"flex items-center gap-1 mb-4 text-blue-600 hover:underline"}
+      className={"mb-4 flex items-center gap-1 text-blue-600 hover:underline"}
     >
       <ArrowLeft className={"size-4"} /> {label}
     </NavLink>
