@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.api.dependencies import get_db, get_current_user
 from app.api.v1.habit import habit_service
+from app.api.v1.habit.habit_service import MonthlyHabitsReport
 from app.schemas.habit import HabitOut, HabitCreate, HabitUpdate
 from app.schemas.habit_completion import HabitCompletionOut, HabitCompletionSave
 from app.schemas.habit_type import HabitTypeOut
@@ -29,10 +30,15 @@ def save_habit_completion(
     habit_completion: HabitCompletionSave,
     current_user: CurrentUser,
     db: DbSession,
+    timezone: str = Query("UTC", description="User's timezone"),
 ):
     user_id = current_user.id
     return habit_service.save_habit_completion(
-        db=db, habit_completion_in=habit_completion, user_id=user_id, habit_id=habit_id
+        db=db,
+        habit_completion_in=habit_completion,
+        user_id=user_id,
+        habit_id=habit_id,
+        timezone_str=timezone,
     )
 
 
@@ -45,6 +51,22 @@ def today_habit_completions(
     user_id = current_user.id
     return habit_service.get_today_habit_completions(
         db=db, user_id=user_id, timezone_str=timezone
+    )
+
+
+@router.post(
+    "/monthly_habit_completions/{year}/{month}", response_model=MonthlyHabitsReport
+)
+def monthly_habit_completions(
+    year: int,
+    month: int,
+    current_user: CurrentUser,
+    db: DbSession,
+    timezone: str = Query("UTC", description="User's timezone"),
+):
+    user_id = current_user.id
+    return habit_service.get_monthly_habit_completions(
+        db=db, user_id=user_id, timezone_str=timezone, year=year, month=month
     )
 
 

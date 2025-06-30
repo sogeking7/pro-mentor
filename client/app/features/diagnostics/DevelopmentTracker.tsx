@@ -65,11 +65,19 @@ export const DevelopmentTracker = () => {
     mutationFn: async (data: {
       habit_id: number;
       habit_completion: HabitCompletionSave;
-    }) =>
-      (await habitApi.saveHabitCompletion(data.habit_id, data.habit_completion))
-        .data,
+    }) => {
+      const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      return (
+        await habitApi.saveHabitCompletion(
+          data.habit_id,
+          data.habit_completion,
+          userTimezone,
+        )
+      ).data;
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["today_habits_completions"] });
+      queryClient.invalidateQueries({ queryKey: ["monthly-habitCompletions"] });
     },
   });
 
@@ -109,8 +117,17 @@ export const DevelopmentTracker = () => {
     return <div className="my-4 text-center text-xl">Сізде әдеттер жоқ</div>;
   }
 
+  const today = new Date();
+
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const year = today.getFullYear();
+
+  const formattedDate = `${day}.${month}.${year}`;
+
   return (
     <div className="mx-auto max-w-2xl p-6">
+      <h2 className="mb-6 text-center text-2xl font-medium">{formattedDate}</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField

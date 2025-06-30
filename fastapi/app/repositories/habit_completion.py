@@ -1,4 +1,4 @@
-from datetime import datetime, time
+from datetime import datetime
 from typing import Optional, List
 
 from sqlalchemy.orm import Session, joinedload
@@ -16,11 +16,9 @@ def get_habit_completions_query(db: Session, habit_id: int):
     )
 
 
-def get_habit_completion(db: Session, habit_id: int) -> Optional[HabitCompletionOut]:
-    today = datetime.now().date()
-    start_date = datetime.combine(today, time.min)  # 00:00:00
-    end_date = datetime.combine(today, time.max)  # 23:59:59.999999
-
+def get_habit_completion_range(
+    db: Session, habit_id: int, start_date: datetime, end_date: datetime
+) -> Optional[HabitCompletionOut]:
     habit = (
         get_habit_completions_query(db, habit_id=habit_id)
         .filter(
@@ -72,10 +70,7 @@ def update_habit_completion(
     db: Session, habit_id: int, habit_completion_in: HabitCompletionSave
 ) -> HabitCompletionOut:
     habit = get_habit_completions_query(db, habit_id=habit_id).first()
-    update_data = habit_completion_in.model_dump(exclude_unset=True)
-    for field, value in update_data.items():
-        setattr(habit, field, value)
-
+    habit.completed = habit_completion_in.completed
     db.commit()
     db.refresh(habit)
     return HabitCompletionOut.model_validate(habit)

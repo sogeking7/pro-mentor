@@ -7,6 +7,7 @@ import { SideBar, type SideBarSections } from "@/components/custom/SideBar";
 import { HabitsSave } from "@/features/diagnostics/HabitsSave";
 import { HabitsList } from "@/features/diagnostics/HabitsList";
 import { DevelopmentSuite } from "@/features/diagnostics/DevelopmentSuit";
+import { HabitsMonthly } from "@/features/diagnostics/HabitsMonthly";
 
 const sections: SideBarSections = [
   {
@@ -249,7 +250,12 @@ const sections: SideBarSections = [
   },
   {
     title: "📊 Даму трекері",
-    content: <DevelopmentTracker />,
+    content: (
+      <div className="space-y-6">
+        <DevelopmentTracker />
+        <HabitsMonthly />
+      </div>
+    ),
   },
   {
     title: "⚙️ Әдеттер бөлімі",

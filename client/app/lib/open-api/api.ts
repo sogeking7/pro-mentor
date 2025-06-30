@@ -40,6 +40,56 @@ import {
 } from "./base";
 
 /**
+ * Schema for individual habit completion on a specific day
+ * @export
+ * @interface DailyHabitCompletion
+ */
+export interface DailyHabitCompletion {
+  /**
+   *
+   * @type {HabitOut}
+   * @memberof DailyHabitCompletion
+   */
+  habit: HabitOut;
+  /**
+   *
+   * @type {boolean}
+   * @memberof DailyHabitCompletion
+   */
+  completed: boolean;
+  /**
+   *
+   * @type {number}
+   * @memberof DailyHabitCompletion
+   */
+  completion_id?: number | null;
+  /**
+   *
+   * @type {string}
+   * @memberof DailyHabitCompletion
+   */
+  date: string;
+}
+/**
+ * Schema for all habits report for a specific day
+ * @export
+ * @interface DailyHabitsReport
+ */
+export interface DailyHabitsReport {
+  /**
+   *
+   * @type {string}
+   * @memberof DailyHabitsReport
+   */
+  date: string;
+  /**
+   *
+   * @type {Array<DailyHabitCompletion>}
+   * @memberof DailyHabitsReport
+   */
+  habit_completions: Array<DailyHabitCompletion>;
+}
+/**
  *
  * @export
  * @interface HTTPValidationError
@@ -195,6 +245,43 @@ export interface HabitUpdate {
    * @memberof HabitUpdate
    */
   habit_type_id: number;
+}
+/**
+ * Schema for the complete monthly habits report
+ * @export
+ * @interface MonthlyHabitsReport
+ */
+export interface MonthlyHabitsReport {
+  /**
+   *
+   * @type {number}
+   * @memberof MonthlyHabitsReport
+   */
+  year: number;
+  /**
+   *
+   * @type {number}
+   * @memberof MonthlyHabitsReport
+   */
+  month: number;
+  /**
+   *
+   * @type {Array<DailyHabitsReport>}
+   * @memberof MonthlyHabitsReport
+   */
+  daily_reports: Array<DailyHabitsReport>;
+  /**
+   *
+   * @type {number}
+   * @memberof MonthlyHabitsReport
+   */
+  total_days: number;
+  /**
+   *
+   * @type {number}
+   * @memberof MonthlyHabitsReport
+   */
+  total_habits: number;
 }
 /**
  *
@@ -972,6 +1059,71 @@ export const HabitsApiAxiosParamCreator = function (
     },
     /**
      *
+     * @summary Monthly Habit Completions
+     * @param {number} year
+     * @param {number} month
+     * @param {string} [timezone] User\&#39;s timezone
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    monthlyHabitCompletions: async (
+      year: number,
+      month: number,
+      timezone?: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'year' is not null or undefined
+      assertParamExists("monthlyHabitCompletions", "year", year);
+      // verify required parameter 'month' is not null or undefined
+      assertParamExists("monthlyHabitCompletions", "month", month);
+      const localVarPath =
+        `/api/v1/habits/monthly_habit_completions/{year}/{month}`
+          .replace(`{${"year"}}`, encodeURIComponent(String(year)))
+          .replace(`{${"month"}}`, encodeURIComponent(String(month)));
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // oauth required
+      await setOAuthToObject(
+        localVarHeaderParameter,
+        "bearerAuth",
+        [],
+        configuration,
+      );
+
+      if (timezone !== undefined) {
+        localVarQueryParameter["timezone"] = timezone;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
      * @summary Read Habit Types
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1071,12 +1223,14 @@ export const HabitsApiAxiosParamCreator = function (
      * @summary Save Habit Completion
      * @param {number} habitId
      * @param {HabitCompletionSave} habitCompletionSave
+     * @param {string} [timezone] User\&#39;s timezone
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     saveHabitCompletion: async (
       habitId: number,
       habitCompletionSave: HabitCompletionSave,
+      timezone?: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'habitId' is not null or undefined
@@ -1115,6 +1269,10 @@ export const HabitsApiAxiosParamCreator = function (
         [],
         configuration,
       );
+
+      if (timezone !== undefined) {
+        localVarQueryParameter["timezone"] = timezone;
+      }
 
       localVarHeaderParameter["Content-Type"] = "application/json";
 
@@ -1329,6 +1487,46 @@ export const HabitsApiFp = function (configuration?: Configuration) {
     },
     /**
      *
+     * @summary Monthly Habit Completions
+     * @param {number} year
+     * @param {number} month
+     * @param {string} [timezone] User\&#39;s timezone
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async monthlyHabitCompletions(
+      year: number,
+      month: number,
+      timezone?: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<MonthlyHabitsReport>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.monthlyHabitCompletions(
+          year,
+          month,
+          timezone,
+          options,
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["HabitsApi.monthlyHabitCompletions"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
      * @summary Read Habit Types
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1390,12 +1588,14 @@ export const HabitsApiFp = function (configuration?: Configuration) {
      * @summary Save Habit Completion
      * @param {number} habitId
      * @param {HabitCompletionSave} habitCompletionSave
+     * @param {string} [timezone] User\&#39;s timezone
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async saveHabitCompletion(
       habitId: number,
       habitCompletionSave: HabitCompletionSave,
+      timezone?: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -1407,6 +1607,7 @@ export const HabitsApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.saveHabitCompletion(
           habitId,
           habitCompletionSave,
+          timezone,
           options,
         );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -1535,6 +1736,25 @@ export const HabitsApiFactory = function (
     },
     /**
      *
+     * @summary Monthly Habit Completions
+     * @param {number} year
+     * @param {number} month
+     * @param {string} [timezone] User\&#39;s timezone
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    monthlyHabitCompletions(
+      year: number,
+      month: number,
+      timezone?: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<MonthlyHabitsReport> {
+      return localVarFp
+        .monthlyHabitCompletions(year, month, timezone, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
      * @summary Read Habit Types
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1564,16 +1784,18 @@ export const HabitsApiFactory = function (
      * @summary Save Habit Completion
      * @param {number} habitId
      * @param {HabitCompletionSave} habitCompletionSave
+     * @param {string} [timezone] User\&#39;s timezone
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     saveHabitCompletion(
       habitId: number,
       habitCompletionSave: HabitCompletionSave,
+      timezone?: string,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<HabitCompletionOut> {
       return localVarFp
-        .saveHabitCompletion(habitId, habitCompletionSave, options)
+        .saveHabitCompletion(habitId, habitCompletionSave, timezone, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -1651,6 +1873,27 @@ export class HabitsApi extends BaseAPI {
 
   /**
    *
+   * @summary Monthly Habit Completions
+   * @param {number} year
+   * @param {number} month
+   * @param {string} [timezone] User\&#39;s timezone
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof HabitsApi
+   */
+  public monthlyHabitCompletions(
+    year: number,
+    month: number,
+    timezone?: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return HabitsApiFp(this.configuration)
+      .monthlyHabitCompletions(year, month, timezone, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
    * @summary Read Habit Types
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -1680,6 +1923,7 @@ export class HabitsApi extends BaseAPI {
    * @summary Save Habit Completion
    * @param {number} habitId
    * @param {HabitCompletionSave} habitCompletionSave
+   * @param {string} [timezone] User\&#39;s timezone
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof HabitsApi
@@ -1687,10 +1931,11 @@ export class HabitsApi extends BaseAPI {
   public saveHabitCompletion(
     habitId: number,
     habitCompletionSave: HabitCompletionSave,
+    timezone?: string,
     options?: RawAxiosRequestConfig,
   ) {
     return HabitsApiFp(this.configuration)
-      .saveHabitCompletion(habitId, habitCompletionSave, options)
+      .saveHabitCompletion(habitId, habitCompletionSave, timezone, options)
       .then((request) => request(this.axios, this.basePath));
   }
 

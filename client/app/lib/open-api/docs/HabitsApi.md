@@ -6,6 +6,7 @@ All URIs are relative to *http://localhost:8000*
 |------------- | ------------- | -------------|
 |[**createUserHabit**](#createuserhabit) | **POST** /api/v1/habits/ | Create User Habit|
 |[**deleteUserHabit**](#deleteuserhabit) | **DELETE** /api/v1/habits/{habit_id} | Delete User Habit|
+|[**monthlyHabitCompletions**](#monthlyhabitcompletions) | **POST** /api/v1/habits/monthly_habit_completions/{year}/{month} | Monthly Habit Completions|
 |[**readHabitTypes**](#readhabittypes) | **GET** /api/v1/habits/habit_types | Read Habit Types|
 |[**readUserHabits**](#readuserhabits) | **GET** /api/v1/habits/ | Read User Habits|
 |[**saveHabitCompletion**](#savehabitcompletion) | **POST** /api/v1/habits/save_habit_completion/{habit_id} | Save Habit Completion|
@@ -115,6 +116,63 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **monthlyHabitCompletions**
+> MonthlyHabitsReport monthlyHabitCompletions()
+
+
+### Example
+
+```typescript
+import {
+    HabitsApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new HabitsApi(configuration);
+
+let year: number; // (default to undefined)
+let month: number; // (default to undefined)
+let timezone: string; //User\'s timezone (optional) (default to 'UTC')
+
+const { status, data } = await apiInstance.monthlyHabitCompletions(
+    year,
+    month,
+    timezone
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **year** | [**number**] |  | defaults to undefined|
+| **month** | [**number**] |  | defaults to undefined|
+| **timezone** | [**string**] | User\&#39;s timezone | (optional) defaults to 'UTC'|
+
+
+### Return type
+
+**MonthlyHabitsReport**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Successful Response |  -  |
+|**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **readHabitTypes**
 > Array<HabitTypeOut> readHabitTypes()
 
@@ -220,10 +278,12 @@ const apiInstance = new HabitsApi(configuration);
 
 let habitId: number; // (default to undefined)
 let habitCompletionSave: HabitCompletionSave; //
+let timezone: string; //User\'s timezone (optional) (default to 'UTC')
 
 const { status, data } = await apiInstance.saveHabitCompletion(
     habitId,
-    habitCompletionSave
+    habitCompletionSave,
+    timezone
 );
 ```
 
@@ -233,6 +293,7 @@ const { status, data } = await apiInstance.saveHabitCompletion(
 |------------- | ------------- | ------------- | -------------|
 | **habitCompletionSave** | **HabitCompletionSave**|  | |
 | **habitId** | [**number**] |  | defaults to undefined|
+| **timezone** | [**string**] | User\&#39;s timezone | (optional) defaults to 'UTC'|
 
 
 ### Return type
