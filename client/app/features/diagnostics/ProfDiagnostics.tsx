@@ -1,7 +1,17 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Check } from "lucide-react";
+import {
+  BookOpen,
+  Check,
+  ExternalLink,
+  Lightbulb,
+  Monitor,
+  Target,
+} from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
-import { geminiApi, type GeminiResponse } from "@/lib/services/gemini";
+import {
+  type ComprehensiveRecommendation,
+  geminiApi,
+} from "@/lib/services/gemini";
 
 interface DiagnosticQuestion {
   id: string;
@@ -37,13 +47,12 @@ const DIAGNOSTIC_QUESTIONS: DiagnosticQuestion[] = [
     title: "Жұмыс өтілі",
     type: "single",
     options: [
-      "3 ай мен 6 ай аралығы",
-      "6-12 ай аралығы",
-      "1 жыл-3 жыл аралығы",
-      "3 жыл - 5 жыл аралығы",
-      "5 жыл-8 жыл аралығы",
-      "8 жыл-10 жыл аралығы",
-      "10 жылдан астам",
+      "3 ай – 6 ай",
+      "6 – 12 ай",
+      "1 – 3 жыл",
+      "3 – 5 жыл",
+      "5 – 8 жыл",
+      "8 – 10 жыл",
     ],
   },
   {
@@ -66,15 +75,20 @@ const DIAGNOSTIC_QUESTIONS: DiagnosticQuestion[] = [
     options: ["Өте жоғары", "Жоғары", "Орташа", "Төмен"],
   },
   {
-    id: "Сабақта қандай оқыту әдістерін жиі қолданасыз?",
-    title: "Сабақта қандай оқыту әдістерін жиі қолданасыз? ",
+    id: "Оқу үдерісін ұйымдастыруда қандай педагогикалық әдіс-тәсілдерді қолданасыз?",
+    title:
+      "Оқу үдерісін ұйымдастыруда қандай педагогикалық әдіс-тәсілдерді қолданасыз?",
     type: "multiple",
     options: [
-      "Топтық жұмыс",
-      "Жеке жұмыс",
-      "Дискуссия / пікірталас",
-      "Жобалық жұмыс",
+      "Құндылыққа бағытталған ұстаным",
+      "Саралап оқыту ұстанымы",
+      "Ойын іс-әрекеті арқылы оқыту",
+      "Коммуникативтік ұстаным",
       "АКТ қолдану",
+      "Жобалық ұстаным",
+      "Тұлғаға бағытталған ұстаным",
+      "Іс-әрекеттік ұстаным",
+      "Ортақ тақырыптар арқылы оқыту",
     ],
   },
   {
@@ -96,6 +110,35 @@ const DIAGNOSTIC_QUESTIONS: DiagnosticQuestion[] = [
       "Инклюзивті білім беру",
       "Дарынды баламен жұмыс",
       "Құжаттармен жұмыс",
+      "Пәндік біліміме сенімсіздік",
+      "Тұлғалық даму",
+      "Уақытты тиімді жоспарламау",
+    ],
+  },
+  {
+    id: "Қазіргі таңда қандай бағытта дамуды қалайсыз?",
+    title: "Қазіргі таңда қандай бағытта дамуды қалайсыз?",
+    type: "multiple",
+    options: [
+      "Цифрлық сауаттылық",
+      "Сабақ жоспарын жетілдіру",
+      "Жаңа әдістерді меңгеру",
+      "Эмоциялық интеллект",
+      "Уақытты басқару",
+      "Оқушылармен қарым-қатынас",
+    ],
+  },
+  {
+    id: "Сабақта қандай цифрлық платформаларды жиі қолданасыз?",
+    title: "Сабақта қандай цифрлық платформаларды жиі қолданасыз?",
+    type: "multiple",
+    options: [
+      "Google Forms / Docs / Classroom",
+      "BilimLand / Kundelik",
+      "Canva / Wordwall / Quizizz",
+      "Zoom / Meet / Teams",
+      "Жасанды интеллект құралдары (мысалы: ChatGPT, MagicSchool т.б.)",
+      "Қолдана алмаймын",
     ],
   },
 ];
@@ -160,12 +203,167 @@ const OptionButton = ({
   </button>
 );
 
+const ComprehensiveResults = ({
+  recommendation,
+}: {
+  recommendation: ComprehensiveRecommendation;
+}) => {
+  return (
+    <div className="space-y-8">
+      {/* General Advice Section */}
+      <div className="rounded-2xl border border-gray-200 bg-gradient-to-r from-blue-50 to-purple-50 p-6 shadow-md">
+        <div className="mb-4 flex items-center">
+          <div className="mr-4 text-4xl">
+            {recommendation.general_advice.icon}
+          </div>
+          <h3 className="text-2xl font-bold text-gray-800">
+            Кеңес: {recommendation.general_advice.title}
+          </h3>
+        </div>
+        <p className="leading-relaxed text-gray-700">
+          {recommendation.general_advice.content}
+        </p>
+      </div>
+
+      {/* Book Recommendations Section */}
+      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-md">
+        <div className="mb-4 flex items-center">
+          <BookOpen className="mr-3 h-6 w-6 text-green-600" />
+          <h3 className="text-xl font-bold text-gray-800">
+            Ұсынылатын кітаптар:
+          </h3>
+        </div>
+        <div className="space-y-4">
+          {recommendation.book_recommendations.map((book, index) => (
+            <div
+              key={index}
+              className="rounded-lg border border-gray-100 bg-gray-50 p-4"
+            >
+              <div className="mb-2 flex items-start justify-between">
+                <div>
+                  <h4 className="font-semibold text-gray-800">
+                    «{book.title}»
+                  </h4>
+                  <p className="text-sm text-gray-600">– {book.author}</p>
+                </div>
+                {book.pdf_link && (
+                  <a
+                    href={book.pdf_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-800"
+                  >
+                    <ExternalLink size={16} />
+                  </a>
+                )}
+              </div>
+              <p className="text-sm text-gray-700">{book.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Digital Tools Section */}
+      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-md">
+        <div className="mb-4 flex items-center">
+          <Monitor className="mr-3 h-6 w-6 text-purple-600" />
+          <h3 className="text-xl font-bold text-gray-800">
+            Цифрлық құрал ұсынысы:
+          </h3>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2">
+          {recommendation.digital_tools.map((tool, index) => (
+            <div
+              key={index}
+              className="rounded-lg border border-gray-100 bg-gray-50 p-4"
+            >
+              <div className="mb-2 flex items-center justify-between">
+                <h4 className="font-semibold text-gray-800">{tool.name}</h4>
+                <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">
+                  {tool.category}
+                </span>
+              </div>
+              <p className="mb-3 text-sm text-gray-700">{tool.description}</p>
+              <a
+                href={tool.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800"
+              >
+                Сілтеме <ExternalLink className="ml-1" size={12} />
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* SMART Goal Section */}
+      <div className="rounded-2xl border border-gray-200 bg-gradient-to-r from-green-50 to-blue-50 p-6 shadow-md">
+        <div className="mb-4 flex items-center">
+          <Target className="mr-3 h-6 w-6 text-green-600" />
+          <h3 className="text-xl font-bold text-gray-800">
+            Жеке даму мақсаты (SMART):
+          </h3>
+        </div>
+        <div className="grid gap-3 space-y-3 md:grid-cols-1">
+          <div className="rounded-lg bg-white p-4">
+            <p className="font-semibold text-gray-800">Specific:</p>
+            <p className="text-gray-700">
+              {recommendation.smart_goal.specific}
+            </p>
+          </div>
+          <div className="rounded-lg bg-white p-3">
+            <p className="text-sm font-semibold text-gray-800">Measurable:</p>
+            <p className="text-sm text-gray-700">
+              {recommendation.smart_goal.measurable}
+            </p>
+          </div>
+          <div className="rounded-lg bg-white p-3">
+            <p className="text-sm font-semibold text-gray-800">Achievable</p>
+            <p className="text-sm text-gray-700">
+              {recommendation.smart_goal.achievable}
+            </p>
+          </div>
+          <div className="rounded-lg bg-white p-3">
+            <p className="text-sm font-semibold text-gray-800">Relevant</p>
+            <p className="text-sm text-gray-700">
+              {recommendation.smart_goal.relevant}
+            </p>
+          </div>
+          <div className="rounded-lg bg-white p-3">
+            <p className="text-sm font-semibold text-gray-800">Time bound</p>
+            <p className="text-sm text-gray-700">
+              {recommendation.smart_goal.timebound}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Additional Tips Section */}
+      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-md">
+        <div className="mb-4 flex items-center">
+          <Lightbulb className="mr-3 h-6 w-6 text-yellow-600" />
+          <h3 className="text-xl font-bold text-gray-800">Қосымша кеңестер:</h3>
+        </div>
+        <div className="space-y-3">
+          {recommendation.additional_tips.map((tip, index) => (
+            <div key={index} className="flex items-start">
+              <div className="mt-1 mr-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-500"></div>
+              <p className="text-gray-700">{tip}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const ProfDiagnostics = () => {
   const [showResults, setShowResults] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<DiagnosticAnswers>({});
   const [geminiResponse, setGeminiResponse] =
-    useState<Array<GeminiResponse> | null>(null);
+    useState<ComprehensiveRecommendation | null>(null);
 
   const handleAnswer = useCallback(
     (questionId: string, answer: string, isMultiple = false) => {
@@ -220,14 +418,17 @@ export const ProfDiagnostics = () => {
   }, [currentQuestion, answers]);
 
   const { mutateAsync: sendPrompt, isPending } = useMutation({
-    mutationFn: async (data: DiagnosticAnswers) => geminiApi.sendPrompt(data),
+    mutationFn: async (data: DiagnosticAnswers) =>
+      geminiApi.getComprehensiveRecommendations(data),
     onSuccess: (data) => {
       setGeminiResponse(data);
     },
     onError: (error) => {
+      console.error("Error getting recommendations:", error);
       setGeminiResponse(null);
     },
   });
+
   useEffect(() => {
     if (showResults) {
       const sendResults = async () => {
@@ -236,62 +437,56 @@ export const ProfDiagnostics = () => {
 
       sendResults();
     }
-  }, [showResults, answers]);
+  }, [showResults, answers, sendPrompt]);
 
   if (showResults) {
     if (isPending) {
       return (
-        <div className="my-6 flex h-[50vh] flex-col items-center justify-center gap-2 text-center">
-          <div className="h-12 w-12 animate-spin rounded-full border-5 border-blue-200 border-t-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-            <div className="size-[38px] rounded-full bg-white"></div>
+        <div className="my-6 flex h-[50vh] flex-col items-center justify-center gap-4 text-center">
+          <div className="relative">
+            <div className="h-16 w-16 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-2xl">🤖</div>
+            </div>
           </div>
-          <p className="text-gray-500">Жүктелуде...</p>
+          <div>
+            <h3 className="text-xl font-semibold text-gray-800">
+              ЖИ талдау жүргізуде...
+            </h3>
+            <p className="text-gray-500">
+              Сіздің жауаптарыңыз негізінде жеке ұсыныстар дайындалуда
+            </p>
+          </div>
         </div>
       );
     }
+
     return (
       <div className="space-y-6">
         <div className="mb-8 text-center">
           <div className="mb-4 text-6xl">🎉</div>
           <h2 className="mb-4 text-3xl font-bold text-gray-800">
-            Диагностика нәтижелері
+            🤖 ЖИ-дің талдауы мен ұсынысы
           </h2>
           <p className="text-gray-600">
             Сіздің жауаптарыңыз негізінде құрастырылған жеке даму жоспары
           </p>
         </div>
 
-        {geminiResponse && (
-          <>
-            <div className="mb-8 grid grid-cols-1 gap-8 lg:grid-cols-1">
-              {geminiResponse.map((rec, index) => (
-                <div
-                  key={index}
-                  className="rounded-2xl border border-gray-200 bg-white p-6 shadow-md"
-                >
-                  <div className="mb-2 text-3xl">{rec.icon}</div>
-                  <h3 className="mb-2 text-xl font-semibold text-gray-800">
-                    {rec.recommendation_title}
-                  </h3>
-                  <p className="mb-3 text-gray-700">
-                    {rec.recommendation_description}
-                  </p>
-                  <span
-                    className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${
-                      rec.priority === "Жоғары"
-                        ? "bg-red-100 text-red-800"
-                        : rec.priority === "Орташа"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : "bg-green-100 text-green-800"
-                    }`}
-                  >
-                    Басымдық: {rec.priority}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </>
+        {geminiResponse ? (
+          <ComprehensiveResults recommendation={geminiResponse} />
+        ) : (
+          <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+            <div className="mb-2 text-4xl">⚠️</div>
+            <h3 className="mb-2 text-xl font-semibold text-red-800">
+              Ұсыныстарды алу кезінде қате орын алды
+            </h3>
+            <p className="text-red-600">
+              Қайтадан көруге болады немесе жүйе әкімшісіне хабарласыңыз
+            </p>
+          </div>
         )}
+
         <div className="text-center">
           <button
             onClick={resetDiagnostic}
@@ -313,7 +508,7 @@ export const ProfDiagnostics = () => {
             AI-негізделген кәсіби диагностика
           </h3>
           <p className="mb-6 text-gray-600">
-            Жеке дамыту жоспарын алу үшін 6 сұраққа жауап беріңіз. Барлық
+            Жеке дамыту жоспарын алу үшін 9 сұраққа жауап беріңіз. Барлық
             деректер құпия сақталады.
           </p>
           <button

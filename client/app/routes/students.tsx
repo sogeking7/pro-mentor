@@ -83,14 +83,6 @@ const sections: SideBarSections = [
                 Дарын РҒПО сайты
               </a>
             </li>
-            <li>
-              <span className="text-blue-600">Оқушы портфолио шаблоны</span>
-            </li>
-            <li>
-              <span className="text-blue-600">
-                Қабілет диагностикасы әдістемелері
-              </span>
-            </li>
           </ul>
         </div>
       </div>

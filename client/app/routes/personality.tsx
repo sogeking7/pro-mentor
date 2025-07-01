@@ -74,7 +74,7 @@ const sections: SideBarSections = [
         <div>
           <h4 className="mb-2 font-semibold">Дамыту жаттығулары:</h4>
           <ul className="list-inside list-disc space-y-1 text-gray-700">
-            <li>Күнделікті эмоция дневнигін жүргізу</li>
+            <li>Эмоция күнделігін жүргізу</li>
             <li>Медитация мен рефлексия</li>
             <li>Белсенді тыңдау дағдыларын дамыту</li>
             <li>Конфликттерді шешу тәжірибесі</li>

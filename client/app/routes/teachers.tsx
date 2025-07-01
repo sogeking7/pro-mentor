@@ -65,7 +65,7 @@ const sections = [
                 rel="noopener noreferrer"
                 className="hover:underline"
               >
-                📚 Оқу бағдарламасы (57-бұйрық)
+                📚 Оқу бағдарламасы
               </a>
             </li>
             <li>
