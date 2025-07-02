@@ -223,6 +223,17 @@ export const HabitsMonthly = () => {
             ></div>
           ))}
           {days.map((day) => {
+            const isFuture =
+              year === new Date().getFullYear() &&
+              month === new Date().getMonth() + 1 &&
+              day > new Date().getDate();
+
+            if (isFuture) {
+              return (
+                <div className="h-32 rounded-lg border border-gray-200 bg-gray-50"></div>
+              );
+            }
+
             const dayReport = reportsByDay[day];
             const hasHabits =
               dayReport && dayReport.habit_completions.length > 0;
