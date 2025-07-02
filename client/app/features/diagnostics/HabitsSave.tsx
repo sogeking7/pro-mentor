@@ -27,7 +27,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 const schema = z.object({
-  title: z.string().min(6).max(255),
+  title: z.string().min(1).max(255),
   habit_type_id: z.number().nonnegative(),
 });
 
