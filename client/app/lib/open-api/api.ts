@@ -323,6 +323,86 @@ export interface PageUserOut {
 /**
  *
  * @export
+ * @interface SmartOut
+ */
+export interface SmartOut {
+  /**
+   *
+   * @type {string}
+   * @memberof SmartOut
+   */
+  s: string;
+  /**
+   *
+   * @type {string}
+   * @memberof SmartOut
+   */
+  m: string;
+  /**
+   *
+   * @type {string}
+   * @memberof SmartOut
+   */
+  a: string;
+  /**
+   *
+   * @type {string}
+   * @memberof SmartOut
+   */
+  r: string;
+  /**
+   *
+   * @type {string}
+   * @memberof SmartOut
+   */
+  t: string;
+  /**
+   *
+   * @type {number}
+   * @memberof SmartOut
+   */
+  id: number;
+}
+/**
+ *
+ * @export
+ * @interface SmartSave
+ */
+export interface SmartSave {
+  /**
+   *
+   * @type {string}
+   * @memberof SmartSave
+   */
+  s: string;
+  /**
+   *
+   * @type {string}
+   * @memberof SmartSave
+   */
+  m: string;
+  /**
+   *
+   * @type {string}
+   * @memberof SmartSave
+   */
+  a: string;
+  /**
+   *
+   * @type {string}
+   * @memberof SmartSave
+   */
+  r: string;
+  /**
+   *
+   * @type {string}
+   * @memberof SmartSave
+   */
+  t: string;
+}
+/**
+ *
+ * @export
  * @interface TokenModel
  */
 export interface TokenModel {
@@ -2104,6 +2184,387 @@ export class HealthApi extends BaseAPI {
   public healthHealthGet(options?: RawAxiosRequestConfig) {
     return HealthApiFp(this.configuration)
       .healthHealthGet(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
+ * SmartsApi - axios parameter creator
+ * @export
+ */
+export const SmartsApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     *
+     * @summary Create User Smart
+     * @param {SmartSave} smartSave
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createUserSmart: async (
+      smartSave: SmartSave,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'smartSave' is not null or undefined
+      assertParamExists("createUserSmart", "smartSave", smartSave);
+      const localVarPath = `/api/v1/smarts/`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // oauth required
+      await setOAuthToObject(
+        localVarHeaderParameter,
+        "bearerAuth",
+        [],
+        configuration,
+      );
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        smartSave,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Delete User Smart
+     * @param {number} smartId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteUserSmart: async (
+      smartId: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'smartId' is not null or undefined
+      assertParamExists("deleteUserSmart", "smartId", smartId);
+      const localVarPath = `/api/v1/smarts/{smart_id}`.replace(
+        `{${"smart_id"}}`,
+        encodeURIComponent(String(smartId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // oauth required
+      await setOAuthToObject(
+        localVarHeaderParameter,
+        "bearerAuth",
+        [],
+        configuration,
+      );
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Read User Smarts
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    readUserSmarts: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/smarts/`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // oauth required
+      await setOAuthToObject(
+        localVarHeaderParameter,
+        "bearerAuth",
+        [],
+        configuration,
+      );
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * SmartsApi - functional programming interface
+ * @export
+ */
+export const SmartsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = SmartsApiAxiosParamCreator(configuration);
+  return {
+    /**
+     *
+     * @summary Create User Smart
+     * @param {SmartSave} smartSave
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createUserSmart(
+      smartSave: SmartSave,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SmartOut>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createUserSmart(
+        smartSave,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["SmartsApi.createUserSmart"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @summary Delete User Smart
+     * @param {number} smartId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteUserSmart(
+      smartId: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deleteUserSmart(
+        smartId,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["SmartsApi.deleteUserSmart"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @summary Read User Smarts
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async readUserSmarts(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<SmartOut>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.readUserSmarts(options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["SmartsApi.readUserSmarts"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+  };
+};
+
+/**
+ * SmartsApi - factory interface
+ * @export
+ */
+export const SmartsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = SmartsApiFp(configuration);
+  return {
+    /**
+     *
+     * @summary Create User Smart
+     * @param {SmartSave} smartSave
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createUserSmart(
+      smartSave: SmartSave,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<SmartOut> {
+      return localVarFp
+        .createUserSmart(smartSave, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Delete User Smart
+     * @param {number} smartId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteUserSmart(
+      smartId: number,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .deleteUserSmart(smartId, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Read User Smarts
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    readUserSmarts(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<SmartOut>> {
+      return localVarFp
+        .readUserSmarts(options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * SmartsApi - object-oriented interface
+ * @export
+ * @class SmartsApi
+ * @extends {BaseAPI}
+ */
+export class SmartsApi extends BaseAPI {
+  /**
+   *
+   * @summary Create User Smart
+   * @param {SmartSave} smartSave
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof SmartsApi
+   */
+  public createUserSmart(
+    smartSave: SmartSave,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return SmartsApiFp(this.configuration)
+      .createUserSmart(smartSave, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @summary Delete User Smart
+   * @param {number} smartId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof SmartsApi
+   */
+  public deleteUserSmart(smartId: number, options?: RawAxiosRequestConfig) {
+    return SmartsApiFp(this.configuration)
+      .deleteUserSmart(smartId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @summary Read User Smarts
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof SmartsApi
+   */
+  public readUserSmarts(options?: RawAxiosRequestConfig) {
+    return SmartsApiFp(this.configuration)
+      .readUserSmarts(options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
