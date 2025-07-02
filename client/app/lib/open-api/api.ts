@@ -323,6 +323,74 @@ export interface PageUserOut {
 /**
  *
  * @export
+ * @interface PlanOut
+ */
+export interface PlanOut {
+  /**
+   *
+   * @type {string}
+   * @memberof PlanOut
+   */
+  title: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PlanOut
+   */
+  category_name: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PlanOut
+   */
+  category_icon: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PlanOut
+   */
+  date: string;
+  /**
+   *
+   * @type {number}
+   * @memberof PlanOut
+   */
+  id: number;
+}
+/**
+ *
+ * @export
+ * @interface PlanSave
+ */
+export interface PlanSave {
+  /**
+   *
+   * @type {string}
+   * @memberof PlanSave
+   */
+  title: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PlanSave
+   */
+  category_name: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PlanSave
+   */
+  category_icon: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PlanSave
+   */
+  date: string;
+}
+/**
+ *
+ * @export
  * @interface SmartOut
  */
 export interface SmartOut {
@@ -2184,6 +2252,381 @@ export class HealthApi extends BaseAPI {
   public healthHealthGet(options?: RawAxiosRequestConfig) {
     return HealthApiFp(this.configuration)
       .healthHealthGet(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
+ * PlansApi - axios parameter creator
+ * @export
+ */
+export const PlansApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     *
+     * @summary Create User Plan
+     * @param {PlanSave} planSave
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createUserPlan: async (
+      planSave: PlanSave,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'planSave' is not null or undefined
+      assertParamExists("createUserPlan", "planSave", planSave);
+      const localVarPath = `/api/v1/plans/`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // oauth required
+      await setOAuthToObject(
+        localVarHeaderParameter,
+        "bearerAuth",
+        [],
+        configuration,
+      );
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        planSave,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Delete User Plan
+     * @param {number} planId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteUserPlan: async (
+      planId: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'planId' is not null or undefined
+      assertParamExists("deleteUserPlan", "planId", planId);
+      const localVarPath = `/api/v1/plans/{plan_id}`.replace(
+        `{${"plan_id"}}`,
+        encodeURIComponent(String(planId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // oauth required
+      await setOAuthToObject(
+        localVarHeaderParameter,
+        "bearerAuth",
+        [],
+        configuration,
+      );
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Read User Plans
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    readUserPlans: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/plans/`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // oauth required
+      await setOAuthToObject(
+        localVarHeaderParameter,
+        "bearerAuth",
+        [],
+        configuration,
+      );
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * PlansApi - functional programming interface
+ * @export
+ */
+export const PlansApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = PlansApiAxiosParamCreator(configuration);
+  return {
+    /**
+     *
+     * @summary Create User Plan
+     * @param {PlanSave} planSave
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createUserPlan(
+      planSave: PlanSave,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PlanOut>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createUserPlan(
+        planSave,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["PlansApi.createUserPlan"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @summary Delete User Plan
+     * @param {number} planId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteUserPlan(
+      planId: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deleteUserPlan(
+        planId,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["PlansApi.deleteUserPlan"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @summary Read User Plans
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async readUserPlans(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PlanOut>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.readUserPlans(options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["PlansApi.readUserPlans"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+  };
+};
+
+/**
+ * PlansApi - factory interface
+ * @export
+ */
+export const PlansApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = PlansApiFp(configuration);
+  return {
+    /**
+     *
+     * @summary Create User Plan
+     * @param {PlanSave} planSave
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createUserPlan(
+      planSave: PlanSave,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PlanOut> {
+      return localVarFp
+        .createUserPlan(planSave, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Delete User Plan
+     * @param {number} planId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteUserPlan(
+      planId: number,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .deleteUserPlan(planId, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Read User Plans
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    readUserPlans(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<PlanOut>> {
+      return localVarFp
+        .readUserPlans(options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * PlansApi - object-oriented interface
+ * @export
+ * @class PlansApi
+ * @extends {BaseAPI}
+ */
+export class PlansApi extends BaseAPI {
+  /**
+   *
+   * @summary Create User Plan
+   * @param {PlanSave} planSave
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PlansApi
+   */
+  public createUserPlan(planSave: PlanSave, options?: RawAxiosRequestConfig) {
+    return PlansApiFp(this.configuration)
+      .createUserPlan(planSave, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @summary Delete User Plan
+   * @param {number} planId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PlansApi
+   */
+  public deleteUserPlan(planId: number, options?: RawAxiosRequestConfig) {
+    return PlansApiFp(this.configuration)
+      .deleteUserPlan(planId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @summary Read User Plans
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PlansApi
+   */
+  public readUserPlans(options?: RawAxiosRequestConfig) {
+    return PlansApiFp(this.configuration)
+      .readUserPlans(options)
       .then((request) => request(this.axios, this.basePath));
   }
 }

@@ -49,6 +49,9 @@ export const HabitsList = () => {
         queryClient.invalidateQueries({
           queryKey: ["habits"],
         });
+        queryClient.invalidateQueries({
+          queryKey: ["monthly-habitCompletions"],
+        });
       },
     });
 

@@ -1,37 +1,55 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { planApi } from "@/lib/services";
+import type { PlanOut, PlanSave } from "@/lib/open-api";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export const TeacherCalendar = () => {
-  const [events, setEvents] = useState([
-    {
-      id: 1,
-      title: "Сабақ жоспары тапсыру",
-      date: "2025-06-25",
-      category: "admin",
-    },
-    {
-      id: 2,
-      title: "Pomodoro сессия",
-      date: "2025-06-22",
-      category: "personal",
-    },
-    {
-      id: 3,
-      title: "Мектеп жиналысы",
-      date: "2025-06-26",
-      category: "meeting",
-    },
-    { id: 4, title: "НКТ дайындық", date: "2025-06-28", category: "exam" },
-    {
-      id: 5,
-      title: "Ата-аналармен кездесу",
-      date: "2025-06-30",
-      category: "parents",
-    },
-  ]);
-
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  const [openAlert, setOpenAlert] = React.useState(false);
+  const [selectedPlan, setSelectedPlan] = React.useState<PlanOut | null>(null);
   const [eventCategory, setEventCategory] = useState("personal");
 
-  const handleAddEvent = (e: React.ChangeEvent<HTMLFormElement>) => {
+  const { data: plans = [], isLoading } = useQuery({
+    queryKey: ["plans"],
+    queryFn: async () => (await planApi.readUserPlans()).data,
+    enabled: !!user,
+  });
+
+  const { mutateAsync: createPlan, isPending: isCreatePlanPending } =
+    useMutation({
+      mutationFn: async (data: PlanSave) =>
+        (await planApi.createUserPlan(data)).data,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["plans"],
+        });
+      },
+    });
+
+  const { mutateAsync: deletePlan, isPending: isDeletePlanPending } =
+    useMutation({
+      mutationFn: async (data: { plan_id: number }) =>
+        (await planApi.deleteUserPlan(data.plan_id)).data,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["plans"],
+        });
+      },
+    });
+
+  const handleAddEvent = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -40,19 +58,17 @@ export const TeacherCalendar = () => {
     const date = formData.get("date")?.toString();
 
     if (title && date) {
-      const newEvent = {
-        id: Date.now(),
+      const newPlan: PlanSave = {
         title: title.trim(),
         date,
-        category: eventCategory,
+        category_name: eventCategory,
+        category_icon: getCategoryIcon(eventCategory),
       };
-      setEvents((prev) => [...prev, newEvent]);
+      console.log(newPlan);
+      await createPlan(newPlan);
+
       e.target.reset();
     }
-  };
-
-  const deleteEvent = (id: number) => {
-    setEvents((prev) => prev.filter((event) => event.id !== id));
   };
 
   const getCategoryIcon = (category: string) => {
@@ -89,9 +105,6 @@ export const TeacherCalendar = () => {
     }
   };
 
-  const sortedEvents = events.sort(
-    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-  );
   const today = new Date().toISOString().split("T")[0];
 
   return (
@@ -160,16 +173,16 @@ export const TeacherCalendar = () => {
         <h3 className="mb-3 font-semibold text-gray-800">
           📅 Келесі іс-шаралар:
         </h3>
-
-        {sortedEvents.length === 0 ? (
+        {isLoading && <div className="my-4 text-center">Жүктелуде...</div>}
+        {plans.length === 0 ? (
           <div className="py-8 text-center text-gray-500">
             <p>📭 Әзірше іс-шаралар жоқ</p>
             <p className="text-sm">Жоғарыда жаңа іс-шара қосыңыз</p>
           </div>
         ) : (
-          sortedEvents.map((event) => {
-            const isToday = event.date === today;
-            const isPast = new Date(event.date) < new Date(today);
+          plans.map((event) => {
+            const isToday = event.date.split("T")[0] === today;
+            const isPast = new Date(event.date.split("T")[0]) < new Date(today);
 
             return (
               <div
@@ -179,13 +192,13 @@ export const TeacherCalendar = () => {
                     ? "border-orange-300 bg-orange-50 ring-2 ring-orange-200"
                     : isPast
                       ? "border-gray-200 bg-gray-100 opacity-75"
-                      : getCategoryColor(event.category)
+                      : getCategoryColor(event.category_name)
                 }`}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-start space-x-3">
                     <span className="text-2xl">
-                      {getCategoryIcon(event.category)}
+                      {getCategoryIcon(event.category_name)}
                     </span>
                     <div>
                       <h4
@@ -206,7 +219,10 @@ export const TeacherCalendar = () => {
                     </div>
                   </div>
                   <button
-                    onClick={() => deleteEvent(event.id)}
+                    onClick={() => {
+                      setSelectedPlan(event);
+                      setOpenAlert(true);
+                    }}
                     className="text-red-500 transition-colors hover:text-red-700"
                     title="Өшіру"
                   >
@@ -219,16 +235,42 @@ export const TeacherCalendar = () => {
         )}
       </div>
 
-      {events.length > 0 && (
+      {plans.length > 0 && (
         <div className="mt-6 rounded-lg border border-indigo-200 bg-indigo-50 p-4">
           <div className="flex justify-between text-sm text-indigo-800">
-            <span>Жалпы іс-шаралар: {events.length}</span>
+            <span>Жалпы іс-шаралар: {plans.length}</span>
             <span>
-              Бүгінгі: {events.filter((e) => e.date === today).length}
+              Бүгінгі:{" "}
+              {plans.filter((e) => e.date.split("T")[0] === today).length}
             </span>
           </div>
         </div>
       )}
+      <AlertDialog open={openAlert} onOpenChange={setOpenAlert}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Жоспар жою 🗑️️</AlertDialogTitle>
+            <AlertDialogDescription>
+              {selectedPlan?.title}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Болдырмау</AlertDialogCancel>
+            <AlertDialogAction
+              className={"bg-destructive hover:bg-destructive/90"}
+              disabled={isDeletePlanPending}
+              onClick={async () => {
+                if (!selectedPlan) return;
+                return await deletePlan({
+                  plan_id: selectedPlan.id,
+                });
+              }}
+            >
+              {isDeletePlanPending ? <>Жүктелуде...</> : <>Жою</>}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

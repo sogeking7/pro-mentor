@@ -10,6 +10,7 @@ from fastapi_pagination import add_pagination
 from app.api.utils.exception_handlers import add_exception_handlers
 from app.api.v1.auth import auth_resource
 from app.api.v1.habit import habit_resource
+from app.api.v1.plan import plan_resource
 from app.api.v1.smart import smart_resource
 from app.api.v1.user import user_resource
 from app.core.logger import get_logger
@@ -68,6 +69,12 @@ app.include_router(
     smart_resource.router,
     prefix="/api/v1/smarts",
     tags=["smarts"],
+    dependencies=[Depends(oauth2_scheme)],
+)
+app.include_router(
+    plan_resource.router,
+    prefix="/api/v1/plans",
+    tags=["plans"],
     dependencies=[Depends(oauth2_scheme)],
 )
 

@@ -67,6 +67,9 @@ export const HabitsSave = (props: HabitsSaveProps) => {
         queryClient.invalidateQueries({
           queryKey: ["habits"],
         });
+        queryClient.invalidateQueries({
+          queryKey: ["monthly-habitCompletions"],
+        });
       },
     });
 
@@ -77,6 +80,9 @@ export const HabitsSave = (props: HabitsSaveProps) => {
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ["habits"],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["monthly-habitCompletions"],
         });
       },
     },
