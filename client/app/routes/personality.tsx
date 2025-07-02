@@ -261,9 +261,7 @@ const sections: SideBarSections = [
     title: "⚙️ Әдеттер бөлімі",
     content: (
       <div>
-        <h1 className="my-6 text-xl font-medium">📋 Әдеттер тізімі</h1>
         <HabitsList />
-        <h1 className="my-6 text-xl font-medium">📝 Жаңа әдет</h1>
         <HabitsSave />
       </div>
     ),

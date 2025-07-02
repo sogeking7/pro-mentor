@@ -115,65 +115,71 @@ export const HabitsSave = (props: HabitsSaveProps) => {
   }
 
   return (
-    <div className={cn(props.className, "md:p-6")}>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Әдет атауы</FormLabel>
-                <FormControl>
-                  <Input placeholder="Мысалы: 30 минут кітап оқу" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="habit_type_id"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Әдет түрі</FormLabel>
-                <Select
-                  onValueChange={(value) => field.onChange(Number(value))}
-                  value={field.value !== undefined ? String(field.value) : ""}
-                  disabled={isHabitTypesLoading}
-                >
+    <div>
+      <h1 className="my-6 text-xl font-medium">📝 Жаңа әдет</h1>
+      <div className={cn(props.className, "md:p-6")}>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Әдет атауы</FormLabel>
                   <FormControl>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Әдет түрін таңдаңыз" />
-                    </SelectTrigger>
+                    <Input
+                      placeholder="Мысалы: 30 минут кітап оқу"
+                      {...field}
+                    />
                   </FormControl>
-                  <SelectContent>
-                    {habit_types?.map((type) => (
-                      <SelectItem key={type.id} value={String(type.id)}>
-                        {type.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <Button
-            className="w-full"
-            type="submit"
-            disabled={
-              !form.formState.isValid ||
-              isCreateHabitPending ||
-              isEditHabitPending
-            }
-          >
-            {isCreateHabitPending ? "Жүктелуде..." : "Сақтау"}
-          </Button>
-        </form>
-      </Form>
+            <FormField
+              control={form.control}
+              name="habit_type_id"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Әдет түрі</FormLabel>
+                  <Select
+                    onValueChange={(value) => field.onChange(Number(value))}
+                    value={field.value !== undefined ? String(field.value) : ""}
+                    disabled={isHabitTypesLoading}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Әдет түрін таңдаңыз" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {habit_types?.map((type) => (
+                        <SelectItem key={type.id} value={String(type.id)}>
+                          {type.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button
+              className="w-full"
+              type="submit"
+              disabled={
+                !form.formState.isValid ||
+                isCreateHabitPending ||
+                isEditHabitPending
+              }
+            >
+              {isCreateHabitPending ? "Жүктелуде..." : "Сақтау"}
+            </Button>
+          </form>
+        </Form>
+      </div>
     </div>
   );
 };

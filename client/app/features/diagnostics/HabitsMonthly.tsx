@@ -6,9 +6,11 @@ import type {
   DailyHabitsReport,
   MonthlyHabitsReport,
 } from "@/lib/open-api";
+import { useAuth } from "@/contexts/AuthContext";
 
 export const HabitsMonthly = () => {
   const currentDate = new Date();
+  const { user } = useAuth();
   const [year] = useState(currentDate.getFullYear());
   const [month, setMonth] = useState(currentDate.getMonth() + 1);
 
@@ -139,6 +141,10 @@ export const HabitsMonthly = () => {
       currentStreak: calculateStreak(),
     };
   }, [monthlyReport, year, month]);
+
+  if (!user) {
+    return null;
+  }
 
   if (isLoading) {
     return <div className="my-4 text-center text-xl">Жүктелуде...</div>;

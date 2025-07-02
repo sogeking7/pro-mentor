@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { EnhancedPomodoroTimer } from "@/features/diagnostics/EnhancedPomodoroTimer";
 import { TeacherCalendar } from "@/features/diagnostics/TeacherCalendar";
-import { ReflectionJournal } from "@/features/diagnostics/ReflectionJournal";
 import { SmartGoalTemplate } from "@/features/diagnostics/SmartGoalTemplate";
 
 export const DevelopmentSuite = () => {
@@ -31,16 +30,7 @@ export const DevelopmentSuite = () => {
         >
           📋 Жоспар
         </button>
-        <button
-          onClick={() => setActiveTab("reflection")}
-          className={`rounded-md px-4 py-2 transition-colors ${
-            activeTab === "reflection"
-              ? "bg-white text-purple-600 shadow-sm"
-              : "text-gray-600 hover:text-gray-800"
-          }`}
-        >
-          📝 Рефлексия
-        </button>
+
         <button
           onClick={() => setActiveTab("goals")}
           className={`rounded-md px-4 py-2 transition-colors ${
@@ -57,7 +47,6 @@ export const DevelopmentSuite = () => {
       <div className="min-h-[400px]">
         {activeTab === "pomodoro" && <EnhancedPomodoroTimer />}
         {activeTab === "calendar" && <TeacherCalendar />}
-        {activeTab === "reflection" && <ReflectionJournal />}
         {activeTab === "goals" && <SmartGoalTemplate />}
       </div>
     </div>
